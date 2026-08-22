@@ -1,1 +1,8 @@
-video/
+video/
+assets/
+*.mp4
+*.mp3
+*.wav
+*.ogg
+*.webm
+*.m4a
