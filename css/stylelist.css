@@ -1,0 +1,28 @@
+body {
+    background-color: rgb(202, 136, 66);
+
+}
+
+
+
+
+h1 {
+    color: yellow;
+}
+
+p {
+    /* background-color: red; */
+}
+
+/* RGB ==>  (Red GREEN BLUE)
+
+0(min) 255(mix) REd 
+0 (min) 255 (max) green
+0 (min) 255 (max) blue 
+ 
+
+baackground-color:pure red(red,blue,green)====> 
+
+hexadecimal color system 
+
+HSLA */
