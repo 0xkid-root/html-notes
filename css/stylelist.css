@@ -1,28 +1,59 @@
-body {
+/* body {
     background-color: rgb(202, 136, 66);
 
+} */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div {
+    background-color: blue;
+    color: white;
 }
 
 
+button {
+    background-color: red;
+    color: bisque;
+}
 
 
-h1 {
-    color: yellow;
+.clickme {
+    background-color: brown;
+    color: azure;
+    text-align: center;
+}
+
+h3 {
+    color: white;
+    text-align: center;
+}
+
+
+h4 {
+    text-decoration: dashed;
+}
+
+a {
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    text-transform: capitalize;
+    letter-spacing: 10px;
+}
+
+
+h2 {
+
+    word-spacing: 30px;
 }
 
 p {
-    /* background-color: red; */
+    text-align: center;
+    /* line-height: 40px; */
+    /* word-spacing: 20px; */
+    font-weight: bold;
+
 }
 
-/* RGB ==>  (Red GREEN BLUE)
-
-0(min) 255(mix) REd 
-0 (min) 255 (max) green
-0 (min) 255 (max) blue 
- 
-
-baackground-color:pure red(red,blue,green)====> 
-
-hexadecimal color system 
-
-HSLA */
+/* text-align : center, left, right */
