@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+
+}
+
+.mybox1 {
+    background-color: pink;
+    width: 400px;
+    display: inline-block;
+    margin: 40px;
+    padding: 40px;
+    font-size: 40px;
+    height: 300px;
+}
+
+.mybox2 {
+    background-color: blue;
+    width: 400px;
+    display: inline-block;
+    margin: 40px;
+    padding: 40px;
+    font-size: 40px;
+    height: 300px;
+}
+
+.mybox3 {
+    background-color: brown;
+    width: 400px;
+    display: inline-block;
+    /* visibility: hidden; */
+    margin: 40px;
+    padding: 40px;
+    font-size: 40px;
+    height: 300px;
+}
+
+.mybox4 {
+    background-color: brown;
+    width: 400px;
+    display: inline-block;
+    margin: 40px;
+    padding: 40px;
+    font-size: 40px;
+    height: 300px;
+
+}
+
+span {
+    color: red;
+
+}
+
+h2 {
+    color: green;
+}
+
+.blockElement {
+    display: block;
+}

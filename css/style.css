@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    height: 60px;
+    background-color: #0f1111;
+    padding-left: 20px;
+    line-height: 60px;
+}
+
+/* Logo pushes the first link away */
+.logo {
+    font-size: 25px;
+    color: #f08804;
+    font-weight: bold;
+    margin-right: 200px;
+}
+
+/* Links push the next items away */
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 200px;
+    /* Same margin-right for all menu items */
+}
+
+/* Search input pushes the button away */
+.navbar input {
+    padding: 5px;
+    color: #000000;
+    margin-right: 5px;
+    /* Small space before Search button */
+}
+
+/* Search Button */
+.navbar button {
+    background-color: #f08804;
+    color: #ffffff;
+    padding: 5px 10px;
+    border: none;
+}

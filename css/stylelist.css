@@ -1,3 +1,7 @@
+* {
+    color: white;
+}
+
 h2 {
     font-weight: lighter;
     font-size: 100px
@@ -66,6 +70,64 @@ p {
 .box4 {
     background-color: green;
     width: 100px;
-    height: 100px;
+    height: 80px;
     border-radius: 50px;
 }
+
+.main-parent {
+    width: 80vw;
+    /* Big container */
+    background-color: lightgray;
+}
+
+.child-box {
+    width: 100vw;
+    /* FIXED WIDTH IS REQUIRED */
+    margin: auto;
+    /* CENTER THIS BOX */
+    background-color: blue;
+}
+
+.myclass {
+    height: 200px;
+    width: 200px;
+    margin: 0 auto;
+    background-color: red;
+}
+
+/* margin:10px 20px;
+margin-top:10px
+margin-bottom:10px
+margin-left:20px;
+margin-bottom:20px */
+
+
+
+.mysecondclass {
+
+    background-color: black;
+    width: 200px;
+    height: 200px;
+    margin: 20px;
+}
+
+
+.myparents {
+    width: 1000px;
+    height: 800px;
+    background-color: brown;
+}
+
+.myChild {
+    width: 400px;
+    background-color: aqua;
+    height: 350px;
+    margin: 0 auto;
+}
+
+
+/* parents 1000px
+child : 400px
+
+bach 6000
+margin :auto  */
