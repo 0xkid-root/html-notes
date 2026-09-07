@@ -1,0 +1,209 @@
+/* ================= GENERAL ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    height: 70px;
+    background-color: #111827;
+    padding-left: 30px;
+    line-height: 70px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 100px;
+}
+
+.navbar ul {
+    display: inline-block;
+    list-style: none;
+}
+
+.navbar li {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+/* ================= HERO ================= */
+
+.hero {
+    width: 80%;
+    height: 300px;
+    margin: 30px auto;
+    padding: 40px;
+    background-color: #e8f0ff;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px gray;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-button {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+
+/* ================= COURSES ================= */
+
+.courses {
+    width: 90%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.courses h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+
+/* ================= COURSE CARD ================= */
+
+.course-card {
+    display: inline-block;
+    width: 200px;
+    height: 180px;
+    margin: 15px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 2px 2px 10px gray;
+    text-align: center;
+    box-sizing: border-box;
+
+    /* 
+    
+    What does box-sizing: border-box mean?
+The width and height you give to the element already include the padding and border.
+Without border-box, the 200px is only the content width, so padding and border are added outside it.
+
+
+*/
+
+}
+
+.course-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.course-card p {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.course-card a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* ================= ABOUT ================= */
+
+.about {
+    width: 80%;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f3f4f6;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: 2px solid #ddd;
+    outline-offset: 5px;
+}
+
+.about h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px gray;
+}
+
+.about p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    background-color: #111827;
+    color: white;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.footer-section {
+    display: inline-block;
+    width: 20%;
+    margin-right: 40px;
+}
+
+.footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section li {
+    margin-bottom: 8px;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+
+.copyright {
+    margin-top: 40px;
+    padding-top: 20px;
+    text-align: center;
+    border-top: 1px solid gray;
+}
