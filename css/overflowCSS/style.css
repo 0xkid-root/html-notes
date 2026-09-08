@@ -1,0 +1,155 @@
+/* general css */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+    border: 2px solid gray;
+    height: 70px;
+    padding-left: 30px;
+    line-height: 70px;
+    background-color: #111827;
+}
+
+.logo {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 101px;
+}
+
+.navbar ul {
+    display: inline-block;
+
+    list-style: none;
+
+}
+
+.navbar li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 30px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px0;
+    font-weight: bold;
+}
+
+/* hero csss */
+
+.hero {
+    border: 2px solid gray;
+    width: 800px;
+    height: 200px;
+    padding: 30px;
+    margin: 20px auto;
+    background-color: #e8f0ff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+}
+
+.hero h1 {
+    font-size: 40px;
+    font-weight: bold;
+    white-space: nowrap;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 2px brown;
+}
+
+
+.hero p {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 30px;
+
+}
+
+.hero-button {
+
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* courses css */
+.courses {
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.courses h2 {
+    font-size: 40px;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 2px brown;
+
+
+}
+
+.courses-card {
+    border: 1px solid #ccc;
+    display: inline-block;
+    width: 200px;
+    height: 180px;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.courses-card h3 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.courses-card p {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.courses-card a {
+    text-decoration: none;
+    font-weight: bold;
+    color: brown;
+    background-color: #2563eb;
+    color: white;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.aboutUS {
+    border: 1px solid #ccc;
+    width: 800px;
+    margin: 30px auto;
+    padding: 40px;
+    background-color: #f3f4f6;
+    border-radius: 10px;
+    outline: 2px dotted #ddd;
+    outline-offset: 5px;
+
+}
+
+.aboutUS h2 {
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 2px gray;
+    font-size: 30px;
+}
+
+.aboutUS p {
+    font-size: 14px;
+    margin-bottom: 14px;
+
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style type="text/css" media="all">
+        .parent {
+            margin: 43px;
+            padding: 34px;
+            border: 2px solid gray;
+
+            /* <!-- position:absolute; --> */
+
+
+        }
+
+        .box {
+            width: 133px;
+            height: 230px;
+            padding: 3px;
+            margin: 3px;
+            border: 2px solid black;
+        }
+
+        .box1 {
+            background-color: red;
+            position: sticky;
+            top: 0px;
+            height: 110px;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            /* <!-- position:absolute;
+     top:0;
+     left:0; --> */
+        }
+
+        .box2 {
+            background-color: aqua;
+            /* <!-- position:relative; -->
+     <!-- top:30px;
+     left:40px; --> */
+        }
+
+        .box3 {
+            background-color: pink;
+            /* position: fixed;
+            height: 111px;
+            left: 30px; */
+        }
+
+        .box4 {
+            background-color: gray;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">Hello World!</h1>
+    <p id="currentTime"></p>
+
+
+    <div class="parent">
+
+
+        <div class="box1 box">
+        </div>
+
+
+        <div class="box2 box">
+        </div>
+        <div class="box3 box">
+        </div>
+        <div class="box4 box">
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
