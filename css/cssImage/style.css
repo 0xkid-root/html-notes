@@ -1,0 +1,26 @@
+.hero {
+    height: 300px;
+    background-image: url('../../assets//images//lucknow.jpg');
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    line-height: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.mybox {
+    height: 200px;
+    width: 200px;
+    margin: 30px;
+    background-image: url('../../assets//images//lucknow.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: red;
+
+
+
+
+}

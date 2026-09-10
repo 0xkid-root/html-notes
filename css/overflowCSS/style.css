@@ -153,3 +153,48 @@
     margin-bottom: 14px;
 
 }
+
+
+.contact {
+    background-color: #111827;
+    color: white;
+    padding: 30px;
+    margin-top: 40px;
+
+}
+
+.footer-section {
+    display: inline-block;
+    width: 250px;
+    margin: 30px;
+    margin-top: 40px;
+    margin-right: 35px;
+
+}
+
+.footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.footer-section p {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+
+}
+
+.copyright {
+    margin-top: 35px;
+    padding-top: 25px;
+    text-align: center;
+    border-top: 1px solid gray;
+}
