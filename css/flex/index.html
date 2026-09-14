@@ -10,41 +10,58 @@
             text-align: center;
         }
 
-        div {
-            height: 100px;
-            width: 100px;
-            border: 2px solid black;
-            display: inline-block
-        }
-
         .container {
-            width: 800px;
-            height: 200px;
+            border: 2px solid black;
+
+            margin: 2px;
+            padding: 2px;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            /* flex-wrap: wrap; */
 
+            /* justify-content: flex-end;
+            align-items: flex-start;
+            gap: 10px; */
+            /* flex-wrap: wrap-reverse; */
+            align-items: center;
+            justify-content: start;
+            flex-wrap: wrap;
+            height: 1200px;
+            align-content: center;
         }
+
+        .box {
+            height: 200px;
+            width: 200px;
+            padding: 2px;
+            margin: 2px;
+            border: 2px solid black;
+            display: inline-block;
+        }
+
+
 
         .box1 {
             background-color: aqua;
+            /* flex-grow: 2; */
+            order: 300;
+
 
         }
 
         .box2 {
             background-color: brown;
+            /* flex-shrink: 2; */
         }
 
         .box3 {
             background-color: blue;
+            /* flex-shrink: 0.5; */
         }
 
         .box4 {
             background-color: orange;
-        }
-
-        .box5 {
-            background-color: grey;
+            /* flex-shrink: 2; */
         }
     </style>
 </head>
@@ -53,11 +70,11 @@
 
     <h1>flexBox Playground</h1>
     <div class="container">
-        <div class="box1">BOX1</div>
-        <div class="box2">BOX2</div>
-        <div class="box3">BOX3</div>
-        <div class="box4">BOX4</div>
-        <div class="box5">BOX5</div>
+        <div class="box1 box">BOX1</div>
+        <div class="box2 box">BOX2</div>
+        <div class="box3 box">BOX3</div>
+        <div class="box4 box">BOX4</div>
+
     </div>
 
 </body>

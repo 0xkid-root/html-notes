@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+    height: 80px;
+    background-color: #222;
+    color: white;
+    padding: 20px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 25px;
+    display: inline-block;
+}
+
+.nav-links {
+    display: inline-block;
+    margin-left: 130px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 24px;
+
+}
+
+.hero {
+    height: 450px;
+    border: 2px solid gray;
+    margin-top: 20px;
+    background-image: url("../../assets/images/lucknow.jpg");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+.hero-content {
+    color: white;
+    padding: 24px;
+    /* width: 500px;
+    text-align: center; */
+}
+
+.chat-btn {
+    position: fixed;
+    right: 100px;
+    bottom: 30px;
+    font-size: 30px;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 10px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+p {
+    color: red;
+    cursor: pointer;
+}

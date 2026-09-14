@@ -37,7 +37,8 @@ body {
     width: 54%;
     padding: 45px;
     display: inline-block;
-    vertical-align: top;
+    /* vertical-align: top; */
+
 }
 
 .right-section h1 {
