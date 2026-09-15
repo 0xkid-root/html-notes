@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+body {
+    background-image: url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 30px;
+
+}
+
+.signup-card {
+
+    width: 850px;
+    margin: auto;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.left-section {
+    display: inline-block;
+    height: 450px;
+    width: 45%;
+}
+
+.left-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.right-section {
+    display: inline-block;
+    width: 54%;
+    padding: 30px;
+}
+
+.right-section h1 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.right-section p {
+    margin-bottom: 15px;
+    color: gray
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.login-txt {
+    margin-top: 10px;
+    color: gray;
+    text-align: center
+}
+
+.login-txt a {
+    text-decoration: none;
+    color: blue;
+}
