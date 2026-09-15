@@ -6,13 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flex BOX </title>
 </head>
+<style>
+    .container {
+        border: 2px solid black;
+        margin: 2px;
+        padding: 2px;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        /* flex-wrap: wrap; */
+        align-items: center;
+        /* height: 900px; */
+        align-content: start;
+        gap: 30px;
+        width: 500px;
+    }
+
+    .box {
+        height: 200px;
+        width: 150px;
+        padding: 2px;
+        margin: 2px;
+        border: 2px solid gray;
+        display: inline-block;
+    }
+
+    #box1 {
+        background-color: red;
+        /* order: 4; */
+        /* flex-grow: 2; */
+
+    }
+
+    #box2 {
+        background-color: aqua;
+        /* order: 3; */
+        /* flex-grow: 3; */
+        flex-shrink: 0.5;
+    }
+
+    #box3 {
+        background-color: brown;
+        /* order: 2; */
+        flex-shrink: 1.5;
+    }
+
+    #box4 {
+        background-color: hotpink;
+        /* order: 1; */
+    }
+</style>
 
 <body>
     <div class="container">
-        <div id="box1">BOX1</div>
-        <div id="box2">BOX2</div>
-        <div id="box3">BOX3</div>
-        <div id="box4">BOX4</div>
+        <div class="box" id="box1">BOX1</div>
+        <div class="box" id="box2">BOX2</div>
+        <div class="box" id="box3">BOX3</div>
+        <div class="box" id="box4">BOX4</div>
     </div>
 
 </body>
@@ -45,5 +95,32 @@ columns ===? cros axis
 row horizantal 
 columns vertical  -->
 
+<!-- flex-direction  row, row-reverse columns , columns- reverse -->
 
+justify-content:- main axis ke accoding itmes ko kaha rakhna hai ye desciced karta hai
 
+flex-wrap:nowrap, wrap, ,wrap-reverse
+
+align-itmes: cros access ke according itms ko kaha rakhan ye desiced karta ahi
+
+flex container property :--
+
+display:
+flex-direction
+justify-content
+align-items
+gap
+align-content
+flex-wrap, flex-nowrap, flex-wrap:wrap-reverse
+
+jo inka child hai us par hum kya kya apply kar skate hai
+
+<!-- order:200 1,4   -->
+
+1,2,3,4
+4,3,2,1
+box4, box3,box2,box1
+
+child container par apply hota hai
+order
+flex-grow
