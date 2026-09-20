@@ -15,20 +15,33 @@
 
             margin: 2px;
             padding: 2px;
-            display: flex;
-            flex-direction: row;
+            /* display: flex;
+            flex-direction: row; */
             /* flex-wrap: wrap; */
 
             /* justify-content: flex-end;
             align-items: flex-start;
             gap: 10px; */
             /* flex-wrap: wrap-reverse; */
-            align-items: center;
+            /* align-items: center;
             justify-content: start;
             flex-wrap: wrap;
             height: 1200px;
-            align-content: center;
+            align-content: center; */
+            height: 800px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            /* align-items: center; */
+            /* gap: 100px; */
+            /* flex-wrap: wrap; */
+            /* align-content: start; */
+
+            /* width: 500px; */
+            width: 500px;
         }
+
+        /* 200px * 4 = 800px */
 
         .box {
             height: 200px;
@@ -36,32 +49,44 @@
             padding: 2px;
             margin: 2px;
             border: 2px solid black;
-            display: inline-block;
+            /* display: inline-block; */
+
         }
 
+        /* 200px *4 = 800px 300px  */
 
 
         .box1 {
             background-color: aqua;
-            /* flex-grow: 2; */
-            order: 300;
-
+            /* order: 10; */
+            /* order: 5; */
+            /* flex-grow: 1; */
+            /* order: 20; */
+            /* flex-grow: 1; */
 
         }
 
+
         .box2 {
             background-color: brown;
-            /* flex-shrink: 2; */
+            /* order: 3; */
+            /* order: 4; */
+            /* flex-grow: 2; */
+            flex-shrink: 1.5;
+
         }
 
         .box3 {
             background-color: blue;
-            /* flex-shrink: 0.5; */
+            /* order: 2; */
+            flex-shrink: 2;
         }
 
         .box4 {
             background-color: orange;
+            /* order: 1; */
             /* flex-shrink: 2; */
+
         }
     </style>
 </head>
@@ -80,3 +105,78 @@
 </body>
 
 </html>
+
+<!-- flex-direction: row, column , row-reverse, column-reverse -->
+
+box1 box2 box3 BOX4
+
+row-reverse
+
+box4 box3 box3 box1
+
+flex-direction:row
+
+content rakhneka tarike kaise tha
+left to right
+
+justify-content : start, end, center, space-between, space-around, space-evenly
+justify content main axis ke according positon kar rh tha
+
+
+align-itmes: cross axis ke according position karta hai
+
+nowarp, wrap
+nowrap sare box ek line mai rhayenge
+wrap box neeche aayega uske pass space nhi hoga to wo neche aaye gaa
+
+suppose mere pass container ke pass kuch itemas 1, 2,3,4,5,6,7,8,9,
+
+flex-container ke property
+display:flex
+flex-direction:row, columns, row-reverse, coloumn-reverse
+flex-wrap:nowrap, wrap, wrap-reverse
+gap
+justify-content
+align-items
+
+
+kuch child property
+
+<!-- order
+flex-grow
+flex-shrinnk -->
+
+conatiner vs 
+
+display:flex,
+flex-direction
+justify-content
+align-items
+flex-wrap
+align-content (cross axis ke accroding ke center, end start)
+gap
+
+
+items properties:-
+
+flex-grow
+flex-shrink
+order
+
+display :inline, block , inline-block , none
+box modal 
+flex 
+positon :static, relative, fixed, sticky, absolute, 
+media query 
+
+animation 
+
+grid
+
+bootstarp
+shadcnn, tainwidncss
+
+
+
+
+

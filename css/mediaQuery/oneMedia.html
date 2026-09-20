@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Query</title>
+    <style>
+        .container {
+            border: 2px solid red;
+            margin: 4px;
+            display: flex;
+            /* flex-direction: row; */
+            justify-content: space-around;
+
+        }
+
+        .box {
+            height: 200px;
+            width: 200px;
+            border: 1px solid brown;
+            margin: 4px;
+        }
+
+        #box1 {
+            background-color: red;
+        }
+
+        #box2 {
+            background-color: green;
+        }
+
+        #box3 {
+            background-color: blue;
+        }
+
+        #box4 {
+            background-color: yellow;
+        }
+
+        @media (max-width:768px) {
+            .container {
+                flex-direction: column;
+                /* justify-content: center; */
+            }
+
+        }
+
+        /* @media (min-width:700px) {
+            .container {
+                background-color: red;
+                color: white;
+                border: 3px solid black;
+
+            }
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box" id="box1">BOX1</div>
+        <div class="box" id="box2">BOX2</div>
+        <div class="box" id="box3">BOX3</div>
+        <div class="box" id="box4">BOX4</div>
+    </div>
+
+</body>
+
+</html>
+
+
+<!-- media query : allow  us to apply css for different screen sizes.
+
+@media(width ){
+    selector, class , id {
+
+        css property : value 
+
+    }
+} -->
+
+<!-- max-width :-800px: jab tak screen 700px se chooti hai tab takk  css apply kare gaa 
+min-width :- 1000px jaise he 1000px se bada hota hai screen apply kar do css property  -->
+
+<!-- laptop 
+
+common breakpoint :-
+mobile 
+@media (max-width:576px){
+    selector{
+        css property: value 
+
+    }
+}
+
+tablet 
+@media (max-width: 768px){
+    selector {
+        
+    }
+}
+
+laptop
+@media (max-width:992px){
+
+}
+
+desktop -->

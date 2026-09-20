@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .CONTAINER {
+            height: 200px;
+            width: 200px;
+            border: 2px solid black;
+            background: red;
+
+            /* transition-property: all;
+            /* transition-duration: 2s; */
+            /* transition-delay: 3s; */
+            /* transition-timing-function: ease-in; */
+            /* transition:all 2s ease-in 3s; */
+            /* transform: rotate(30deg); */
+            /* position: relative;
+            left: 100px;
+            top: 100px;
+            transform: rotate(90deg); */
+            position: relative;
+            top: 200px;
+            left: 100px;
+            /* transform: scale(2, 1); */
+            /* transition: all 2s ease-in; */
+            /* transform: skew(20deg); */
+            animation-name: animationColor;
+            animation-duration: 3s;
+            /* animation-delay: 2s; */
+            animation-iteration-count: 4;
+            animation-timing-function: ease-in;
+
+
+
+        }
+
+        @keyframes animationColor {
+            from {
+                background-color: red;
+            }
+
+            to {
+                background-color: brown;
+            }
+        }
+
+        .CONTAINER:hover {
+            /* background: pink;
+            font-size: 20px; */
+            /* transform: rotate(30deg); */
+            /* transform: scale(2, 1); */
+            /* transform: translateY(-20px); */
+            /* transform: skew(20deg); */
+
+
+
+
+        }
+
+
+        .box2 {
+            height: 200px;
+            width: 200px;
+            background-color: red;
+            border-radius: 50%;
+            position: relative;
+            left: 0px;
+            animation-name: moveAnimation;
+            animation-duration: 3s;
+            animation-timing-function: ease-out;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+
+        }
+
+        @keyframes moveAnimation {
+            from {
+                left: 0px;
+            }
+
+            to {
+                left: 1000px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="CONTAINER">BOX1</div>
+
+    <br>
+    <div class="box2">Box1</div>
+
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition effect</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #ddd;
+            margin: 160px;
+            /* margin: 100px; */
+            /* transition-property: all;
+            transition-duration: 3s;
+            transition-delay: 2s;
+            transition-timing-function: ease-out; */
+            transform: rotate(45deg);
+            /* transform: scale(1.6); */
+            /* transform: scaleY(0.4);
+            transform: scaleX(0.9); */
+            /* transform: translate(-60px, 100px); */
+            /* transform: translateX(-70px); */
+            /* transform: translateY(90px); */
+
+
+
+
+        }
+
+        .box:hover {
+            background-color: #9f9c9c;
+            color: white;
+            font-size: 50px;
+            transition: all 2s ease-in 0.5s;
+            transform: skew(5deg);
+            border-radius: 5px;
+            /* transition: all 4s ease-in; */
+
+        }
+
+        /* .box2 {
+            margin: 40px;
+            width: 200px;
+            height: 200px;
+            background-color: green;
+            border-radius: 50%;
+            position: relative;
+            left: 0;
+            transition-property: all;
+            transition-duration: 4s;
+            transition-delay: 1s;
+            transition-timing-function: ease-in-out;
+            transition: all 4s ease-in;
+        }
+
+        .box2:hover {
+            background-color: black;
+            left: 800px;
+            border: 2px solid blue
+        }
+
+        button {
+            padding: 20px 22px;
+            background-color: #ddd;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            transition: all 2s ease-in 0.3;
+        }
+
+        button:hover {
+            background-color: #cccccc;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <div class="box">BOX</div>
+
+    <!-- <div class="box2"></div>
+    <br>
+    <button>click me </button> -->
+
+</body>
+
+</html>
+
+
+<!-- transiton-properety:kon se property ko changed karna chhate hai
+
+transition-duration:kitne time tak chalgee
+transition-delay:kitne der baad start hoga
+
+ease-in : slow start and fast end
+ease-out :-fast start and slow end
+ease-in-out : slow start then fast and after again slow
+
+short hand syntax
+
+transition: transaction-property duration timing-function delay
+transition:all 4s ease-in ; -->
+
+<!-- transform : 2d and 3d me element ko tranformation karta hai
+rotate in transform
+
+scale in transform -->
