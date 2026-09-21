@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .loader {
+            display: flex;
+            gap: 10px;
+        }
+
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* border: 5px solid #ddd;
+            border-bottom: 5px solid red; */
+            border-bottom: 5px dotted red;
+            border-left: 5px solid green;
+            border-right: 5px solid blue;
+            border-top: 5px solid yellow;
+            margin: 20px;
+            animation-name: spinnerMove;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-direction: alternate;
+
+        }
+
+        .ball1 {
+            animation-delay: 0s;
+        }
+
+        .ball2 {
+            animation-delay: 0.3s;
+        }
+
+        .ball {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes spinnerMove {
+            from {
+                transform: translateY(0);
+
+            }
+
+            to {
+                transform: translateY(-25px);
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loader">
+        <div class="circle ball1"></div>
+        <div class="circle ball2"></div>
+        <div class="circle ball3"></div>
+
+
+    </div>
+
+
+</body>
+
+</html>
