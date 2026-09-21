@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Folder Hover Card</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background: #111;
+        }
+
+
+        /* MAIN FOLDER */
+
+        .folder {
+            width: 350px;
+            height: 430px;
+
+            position: relative;
+
+            cursor: pointer;
+        }
+
+
+        /* BACK OF FOLDER */
+
+        .folder-back {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background: #f5b942;
+
+            border-radius: 20px;
+
+            z-index: 1;
+        }
+
+
+        /* IRIDESCENT AREA */
+
+        .gradient-area {
+            position: absolute;
+
+            width: 90%;
+            height: 300px;
+
+            left: 5%;
+            top: 55px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff6ec7,
+                    #7c5cff,
+                    #00d4ff,
+                    #7cffcb,
+                    #ffe66d
+                );
+
+            background-size: 300% 300%;
+
+            opacity: 0;
+
+            transform: translateY(-20px);
+
+            transition:
+                opacity 0.5s,
+                transform 0.6s;
+
+            animation: gradientMove 5s ease infinite;
+
+            z-index: 2;
+        }
+
+
+        /* CUT OUT OBJECT */
+
+        .object {
+
+            position: absolute;
+
+            width: 190px;
+            height: 250px;
+
+            left: 80px;
+            top: 80px;
+
+            z-index: 3;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 130px;
+
+            transform:
+                translateY(100px)
+                scale(0.8);
+
+            opacity: 0;
+
+            transition:
+                transform 0.7s ease,
+                opacity 0.5s ease;
+        }
+
+
+        /* FRONT FOLDER FLAP */
+
+        .folder-front {
+
+            position: absolute;
+
+            width: 100%;
+            height: 250px;
+
+            bottom: 0;
+
+            background: #ffc857;
+
+            border-radius:
+                0 0 20px 20px;
+
+            z-index: 4;
+
+            transition:
+                transform 0.6s ease;
+        }
+
+
+        /* FOLDER TOP TAB */
+
+        .tab {
+
+            position: absolute;
+
+            width: 150px;
+            height: 45px;
+
+            top: -35px;
+            left: 0;
+
+            background: #ffc857;
+
+            border-radius:
+                18px 18px 0 0;
+        }
+
+
+        /* TEXT */
+
+        .content {
+
+            position: absolute;
+
+            bottom: 30px;
+
+            left: 30px;
+
+            z-index: 5;
+        }
+
+
+        .content h2 {
+
+            margin: 0 0 8px;
+
+            font-size: 28px;
+
+            color: #222;
+        }
+
+
+        .content p {
+
+            margin: 0;
+
+            color: #555;
+        }
+
+
+        /* HOVER */
+
+        .folder:hover .folder-front {
+
+            transform:
+                translateY(100px);
+        }
+
+
+        .folder:hover .gradient-area {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        .folder:hover .object {
+
+            opacity: 1;
+
+            transform:
+                translateY(-10px)
+                scale(1);
+        }
+
+
+        /* GRADIENT ANIMATION */
+
+        @keyframes gradientMove {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="folder">
+
+
+        <!-- BACK -->
+
+        <div class="folder-back"></div>
+
+
+        <!-- IRIDESCENT GRADIENT -->
+
+        <div class="gradient-area"></div>
+
+
+        <!-- OBJECT BEHIND FOLDER -->
+
+        <div class="object">
+            🚀
+        </div>
+
+
+        <!-- FRONT -->
+
+        <div class="folder-front">
+
+            <div class="tab"></div>
+
+            <div class="content">
+
+                <h2>
+                    Creative Ideas
+                </h2>
+
+                <p>
+                    Hover over the folder
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

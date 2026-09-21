@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Delivery</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .container {
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 400px;
+            padding: 30px;
+
+            background: white;
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+            animation: cardEntry 1s ease;
+        }
+
+        /* Delivery icon */
+
+        .icon {
+            font-size: 60px;
+
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        h2 {
+            margin-top: 15px;
+        }
+
+        p {
+            margin-top: 10px;
+            color: gray;
+        }
+
+        /* Road */
+
+        .road {
+            position: relative;
+
+            height: 80px;
+            margin-top: 30px;
+
+            border-bottom: 4px solid black;
+
+            overflow: hidden;
+        }
+
+        /* Car */
+
+        .car {
+            position: absolute;
+
+            font-size: 40px;
+
+            bottom: 5px;
+            left: 0;
+
+            animation: drive 3s linear infinite;
+        }
+
+        /* Loading */
+
+        .loading {
+            width: 100%;
+            height: 8px;
+
+            margin-top: 25px;
+
+            background: #ddd;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            width: 30%;
+            height: 100%;
+
+            background: red;
+
+            border-radius: 10px;
+
+            animation: loading 2s ease-in-out infinite alternate;
+        }
+
+        /* Button */
+
+        button {
+            margin-top: 25px;
+
+            padding: 12px 25px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: black;
+            color: white;
+
+            cursor: pointer;
+
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        button:hover {
+            background: red;
+
+            transform: scale(1.1);
+        }
+
+        /* Card entry */
+
+        @keyframes cardEntry {
+
+            from {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+        /* Truck/Car movement */
+
+        @keyframes drive {
+
+            from {
+                transform: translateX(-60px);
+            }
+
+            to {
+                transform: translateX(400px);
+            }
+
+        }
+
+        /* Icon bounce */
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+        }
+
+        /* Loading bar */
+
+        @keyframes loading {
+
+            from {
+                width: 20%;
+            }
+
+            to {
+                width: 90%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="icon">
+                🚚
+            </div>
+
+            <h2>Order is on the way!</h2>
+
+            <p>Your delivery will arrive soon.</p>
+
+            <div class="road">
+
+                <div class="car">
+                    🚗
+                </div>
+
+            </div>
+
+            <div class="loading">
+                <div class="loading-bar"></div>
+            </div>
+
+            <button>Track Order</button>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CSS Car Animation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: skyblue;
+        }
+
+
+        /* =========================
+           SUN
+        ========================== */
+
+        .sun {
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            background: yellow;
+
+            border-radius: 50%;
+
+            top: 50px;
+            right: 100px;
+        }
+
+
+        /* =========================
+           CLOUDS
+        ========================== */
+
+        .cloud {
+            position: absolute;
+
+            width: 120px;
+            height: 40px;
+
+            background: white;
+
+            border-radius: 50px;
+        }
+
+        .cloud::before {
+            content: "";
+
+            position: absolute;
+
+            width: 50px;
+            height: 50px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            left: 20px;
+            top: -25px;
+        }
+
+        .cloud::after {
+            content: "";
+
+            position: absolute;
+
+            width: 60px;
+            height: 60px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            right: 15px;
+            top: -30px;
+        }
+
+        .cloud1 {
+            top: 80px;
+            left: 100px;
+
+            animation: cloudMove 12s linear infinite;
+        }
+
+        .cloud2 {
+            top: 150px;
+            left: 600px;
+
+            transform: scale(0.7);
+
+            animation: cloudMove 15s linear infinite;
+        }
+
+
+        @keyframes cloudMove {
+
+            from {
+                transform: translateX(-200px);
+            }
+
+            to {
+                transform: translateX(120vw);
+            }
+
+        }
+
+
+        /* =========================
+           ROAD
+        ========================== */
+
+        .road {
+            position: absolute;
+
+            bottom: 0;
+
+            width: 100%;
+            height: 180px;
+
+            background: #333;
+        }
+
+
+        /* =========================
+           ROAD LINES
+        ========================== */
+
+        .line {
+            position: absolute;
+
+            top: 85px;
+
+            width: 120px;
+            height: 8px;
+
+            background: white;
+
+            animation: roadMove 1s linear infinite;
+        }
+
+        .line1 {
+            left: 0;
+        }
+
+        .line2 {
+            left: 250px;
+        }
+
+        .line3 {
+            left: 500px;
+        }
+
+        .line4 {
+            left: 750px;
+        }
+
+        .line5 {
+            left: 1000px;
+        }
+
+
+        @keyframes roadMove {
+
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-250px);
+            }
+
+        }
+
+
+        /* =========================
+           CAR
+        ========================== */
+
+        .car {
+            position: absolute;
+
+            width: 220px;
+            height: 80px;
+
+            left: -250px;
+            bottom: 180px;
+
+            background: red;
+
+            border-radius: 30px 40px 10px 10px;
+
+            animation: drive 6s linear infinite;
+        }
+
+
+        /* =========================
+           CAR ROOF
+        ========================== */
+
+        .roof {
+            position: absolute;
+
+            width: 130px;
+            height: 60px;
+
+            left: 45px;
+            top: -45px;
+
+            background: red;
+
+            border-radius: 70px 70px 0 0;
+        }
+
+
+        /* =========================
+           WINDOWS
+        ========================== */
+
+        .window1 {
+            position: absolute;
+
+            width: 45px;
+            height: 35px;
+
+            left: 60px;
+            top: -35px;
+
+            background: lightblue;
+
+            border-radius: 10px 10px 0 0;
+        }
+
+        .window2 {
+            position: absolute;
+
+            width: 45px;
+            height: 35px;
+
+            left: 110px;
+            top: -35px;
+
+            background: lightblue;
+
+            border-radius: 10px 10px 0 0;
+        }
+
+
+        /* =========================
+           HEADLIGHT
+        ========================== */
+
+        .headlight {
+            position: absolute;
+
+            width: 15px;
+            height: 15px;
+
+            right: -5px;
+            top: 25px;
+
+            background: yellow;
+
+            border-radius: 50%;
+        }
+
+
+        /* =========================
+           BUMPER
+        ========================== */
+
+        .bumper {
+            position: absolute;
+
+            width: 20px;
+            height: 10px;
+
+            right: -10px;
+            bottom: 5px;
+
+            background: black;
+
+            border-radius: 5px;
+        }
+
+
+        /* =========================
+           WHEELS
+        ========================== */
+
+        .wheel {
+            position: absolute;
+
+            width: 50px;
+            height: 50px;
+
+            bottom: -25px;
+
+            background: black;
+
+            border-radius: 50%;
+
+            animation: wheelRotate 0.5s linear infinite;
+        }
+
+
+        .wheel1 {
+            left: 25px;
+        }
+
+        .wheel2 {
+            right: 25px;
+        }
+
+
+        /* =========================
+           WHEEL CENTER
+        ========================== */
+
+        .wheel::after {
+            content: "";
+
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            left: 16px;
+            top: 16px;
+
+            background: gray;
+
+            border-radius: 50%;
+        }
+
+
+        @keyframes wheelRotate {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================
+           CAR MOVEMENT
+        ========================== */
+
+        @keyframes drive {
+
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(120vw);
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- SUN -->
+
+    <div class="sun"></div>
+
+
+    <!-- CLOUDS -->
+
+    <div class="cloud cloud1"></div>
+
+    <div class="cloud cloud2"></div>
+
+
+    <!-- CAR -->
+
+    <div class="car">
+
+        <div class="roof"></div>
+
+        <div class="window1"></div>
+
+        <div class="window2"></div>
+
+        <div class="headlight"></div>
+
+        <div class="bumper"></div>
+
+        <div class="wheel wheel1"></div>
+
+        <div class="wheel wheel2"></div>
+
+    </div>
+
+
+    <!-- ROAD -->
+
+    <div class="road">
+
+        <div class="line line1"></div>
+
+        <div class="line line2"></div>
+
+        <div class="line line3"></div>
+
+        <div class="line line4"></div>
+
+        <div class="line line5"></div>
+
+    </div>
+
+
+</body>
+
+</html>
