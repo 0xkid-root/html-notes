@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .carousal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 350px;
+            width: 100%;
+            perspective: 1200px;
+
+        }
+
+        .carousal-track {
+            width: 220px;
+            height: 300px;
+            position: relative;
+            animation: rotateCarousal 15s linear infinite;
+            transform-style: preserve-3d;
+
+
+        }
+
+        .image {
+            width: 220px;
+            height: 300px;
+            border: 2px solid white;
+            border-radius: 10px;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            gap: 20px;
+            backface-visibility: visible;
+
+
+        }
+
+        @keyframes rotateCarousal {
+            from {
+                transform: rotateY(0);
+
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        .image1 {
+            transform: rotateY(0deg) translateZ(350px);
+        }
+
+        .image2 {
+            transform: rotateY(70deg) translateZ(350px);
+        }
+
+        .image3 {
+            transform: rotateY(144deg) translateZ(350px);
+        }
+
+        .image4 {
+            transform: rotateY(216deg) translateZ(350px);
+        }
+
+        .image5 {
+            transform: rotateY(288deg) translateZ(350px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="carousal">
+        <div class="carousal-track">
+            <img src="https://picsum.photos/id/1015/300/300" alt="image1" class=" image image1 ">
+            <img src="https://picsum.photos/id/1016/300/300" alt="image2" class="image image2">
+            <img src="https://picsum.photos/id/1018/300/300" alt="image3" class="image image3">
+            <img src="https://picsum.photos/id/1020/300/300" alt="image4" class="image image4">
+            <img src="https://picsum.photos/id/1024/300/300" alt="image5" class="image image5">
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+<!-- 
+https://picsum.photos/id/1015/300/300
+https://picsum.photos/id/1016/300/300
+https://picsum.photos/id/1018/300/300
+https://picsum.photos/id/1020/300/300
+https://picsum.photos/id/1024/300/300 
+
+-->
