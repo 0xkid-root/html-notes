@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Css class</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container {
+
+            padding: 40px;
+            border: 2px solid brown;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(78, 77, 77);
+            display: grid;
+            grid-template-rows: 1.5fr 1fr 2fr;
+            grid-template-columns: 1fr 2fr;
+            /* row-gap: 30px;
+            column-gap: 30px; */
+            gap: 40px;
+
+
+        }
+
+        .item {
+            background-color: rgb(81, 81, 208);
+            border: 2px solid pink;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+        <div class="item">item5</div>
+        <div class="item">item6</div>
+    </div>
+
+</body>
+
+</html>
+
+<!-- grid itmes : child itmes
+grid  container :- parents container
+
+grid line: 
+grid cell
+grid gap
+grid track -->
+
+<!-- final width :3000px
+
+colums 
+
+3fr = 3000px
+1 columsn = 3000px /3 = 1000
+
+px
+
+1fr 1fr 1fr 
+grid-template-columns 1fr 2fr;
+
+3fr = 3000px
+
+1columns = > 3000px/3fr = 1000px
+
+first wala grid ko 1000px 1fr
+second grid 2fr = 2 *1000 = 200 -->
