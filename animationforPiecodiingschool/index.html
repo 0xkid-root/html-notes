@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Variable Animation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+        }
+
+        /* =========================
+           MAIN SCENE
+        ========================= */
+
+        .scene {
+            width: 700px;
+            height: 650px;
+            padding: 60px;
+            position: relative;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(59, 130, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Ambient Glow behind scene */
+        .scene::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .title {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        /* =========================
+           CODE BOX
+        ========================= */
+
+        .code {
+            padding: 24px 32px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 28px;
+            box-shadow: 
+                0 10px 30px -5px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: codeAppear 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 1;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .keyword { color: #c678dd; } /* Purple keyword */
+        .variable { color: #e5c07b; } /* Yellow variable */
+        .operator { color: #56b6c2; } /* Cyan operator */
+        .number { color: #d19a66; } /* Orange number */
+
+        /* =========================
+           CONNECTION AREA
+        ========================= */
+
+        .connection-wrapper {
+            position: relative;
+            height: 140px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .connection {
+            width: 2px;
+            height: 100%;
+            background: rgba(148, 163, 184, 0.2);
+            position: relative;
+        }
+
+        /* Glowing line base */
+        .connection::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(59, 130, 246, 0.1), #3b82f6);
+            transform-origin: top;
+            animation: drawLine 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.5s;
+            transform: scaleY(0);
+        }
+
+        /* Moving particle */
+        .particle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 
+                0 0 10px #60a5fa,
+                0 0 20px #3b82f6,
+                0 0 40px #2563eb;
+            position: absolute;
+            left: -3px;
+            top: 0;
+            animation: moveParticle 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation-delay: 1.5s;
+            opacity: 0;
+        }
+
+        /* Particle Trail */
+        .particle::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 2px;
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(to bottom, transparent, rgba(96, 165, 250, 0.8));
+            border-radius: 4px;
+            filter: blur(2px);
+        }
+
+        .arrow {
+            position: absolute;
+            bottom: -15px;
+            left: -9px;
+            color: #3b82f6;
+            font-size: 20px;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            animation-delay: 1.5s;
+        }
+
+        /* =========================
+           MEMORY
+        ========================= */
+
+        .memory {
+            width: 100%;
+            max-width: 450px;
+            background: linear-gradient(145deg, rgba(248, 250, 252, 0.95), rgba(226, 232, 240, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            color: #0f172a;
+            box-shadow: 
+                0 20px 40px -10px rgba(0, 0, 0, 0.3),
+                inset 0 2px 5px rgba(255, 255, 255, 1);
+            animation: memoryAppear 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 1s;
+            opacity: 0;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Pulse glow around memory when particle hits */
+        .memory::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 24px;
+            background: linear-gradient(45deg, #3b82f6, #60a5fa, #3b82f6);
+            z-index: -1;
+            opacity: 0;
+            filter: blur(10px);
+            animation: memoryPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation-delay: 1.5s; /* Synced with particle */
+        }
+
+        .memory-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .memory-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 26px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-row::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transform: skewX(-20deg);
+            animation: shine 2s infinite;
+            animation-delay: 1.5s;
+        }
+
+        .memory-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .memory-value {
+            font-weight: 700;
+            color: #2563eb;
+            text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+            animation: textPulse 2s infinite;
+            animation-delay: 1.5s;
+        }
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes codeAppear {
+            from { opacity: 0; transform: translateY(-40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes drawLine {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        @keyframes moveParticle {
+            0% { top: 0; opacity: 0; transform: scale(0.5); }
+            10% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; }
+            95% { top: 100%; opacity: 0; transform: scale(0.5); }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes memoryAppear {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes memoryPulse {
+            0% { opacity: 0; transform: scale(1); }
+            80% { opacity: 0; transform: scale(1); }
+            90% { opacity: 0.8; transform: scale(1.02); }
+            100% { opacity: 0; transform: scale(1.05); }
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            80% { left: -100%; }
+            95% { left: 200%; }
+            100% { left: 200%; }
+        }
+        
+        @keyframes textPulse {
+            0% { transform: scale(1); color: #2563eb; }
+            85% { transform: scale(1); color: #2563eb; }
+            92% { transform: scale(1.1); color: #3b82f6; text-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+            100% { transform: scale(1); color: #2563eb; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="title">JAVASCRIPT — VARIABLES</div>
+
+        <!-- CODE -->
+        <div class="code">
+            <span class="keyword">let</span>
+            <span class="variable">age</span>
+            <span class="operator">=</span>
+            <span class="number">20</span>;
+        </div>
+
+        <!-- CONNECTION -->
+        <div class="connection-wrapper">
+            <div class="connection">
+                <div class="particle"></div>
+                <div class="arrow">↓</div>
+            </div>
+        </div>
+
+        <!-- MEMORY -->
+        <div class="memory">
+            <div class="memory-title">Memory</div>
+            <div class="memory-row">
+                <span class="memory-name">age</span>
+                <span class="memory-value">20</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
