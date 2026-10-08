@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Happens When You Request a URL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #cbd5e1;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* =====================================
+   REEL FRAME (Pie Coding Light Brand)
+===================================== */
+.reel {
+    width: 480px;
+    height: 853px; /* 9:16 Aspect Ratio */
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f0f5ff 0%, #e0e7ff 100%);
+    color: #0f172a;
+    border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 0 0 8px #ffffff, inset 0 0 0 9px #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+}
+
+/* Subtle Brand Grid */
+.reel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    z-index: 0;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+.header {
+    text-align: center;
+    z-index: 10;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.header h1 {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+}
+
+.header .highlight {
+    color: #2563eb;
+}
+
+/* =====================================
+   GRID LAYOUT
+===================================== */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    z-index: 10;
+    flex: 1;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03), inset 0 0 0 1px #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    opacity: 0.35;
+    transform: scale(0.96);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.card.active {
+    opacity: 1;
+    transform: scale(1.04);
+    border-color: #2563eb;
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3), inset 0 0 0 1px transparent;
+    z-index: 10;
+}
+
+.card.active::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: #2563eb;
+    border-radius: 16px 16px 0 0;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.step-num {
+    width: 20px;
+    height: 20px;
+    background: #94a3b8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 800;
+    transition: background 0.3s;
+}
+
+.card.active .step-num {
+    background: #2563eb;
+}
+
+.card-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #475569;
+    transition: color 0.3s;
+}
+
+.card.active .card-title {
+    color: #0f172a;
+}
+
+.card-body {
+    flex: 1;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #f1f5f9;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+/* =====================================
+   STEP ILLUSTRATIONS (Mini CSS Art)
+===================================== */
+/* Global small text */
+.lbl { font-family: 'Fira Code', monospace; font-size: 7px; color: #000000; font-weight: 800; text-align: center; transition: color 0.3s; }
+.box { background: white; border: 1px solid #94a3b8; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3px 6px; width: fit-content; height: fit-content; z-index: 2; transition: all 0.3s;}
+
+.card.active .box { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.25); }
+.card.active .box .lbl { color: #2563eb; }
+
+/* Traveling Dot Animation */
+.travel-dot { position: absolute; top: -1.5px; left: 0; width: 4px; height: 4px; background: #3b82f6; border-radius: 50%; box-shadow: 0 0 6px #3b82f6; opacity: 0; z-index: 5; }
+.travel-dot.reverse { left: auto; right: 0; }
+.card.active .travel-dot:not(.ping):not(.pong) { animation: moveDot 1.2s linear infinite; }
+.card.active .travel-dot.reverse:not(.ping):not(.pong) { animation: moveDotRev 1.2s linear infinite; }
+@keyframes moveDot { 0% { left: 0%; opacity: 0; } 10% { opacity: 1; } 90% { left: 100%; opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes moveDotRev { 0% { right: 0%; opacity: 0; } 10% { opacity: 1; } 90% { right: 100%; opacity: 1; } 100% { right: 100%; opacity: 0; } }
+
+.travel-dot.ping { animation: pingAnim 0.4s linear forwards !important; }
+.travel-dot.pong { animation: pongAnim 0.4s linear forwards !important; }
+@keyframes pingAnim { 0% { left: 0%; opacity: 0; } 10% { opacity: 1; } 90% { left: 100%; opacity: 1; } 100% { left: 100%; opacity: 0; } }
+@keyframes pongAnim { 0% { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { left: 0%; opacity: 1; } 100% { left: 0%; opacity: 0; } }
+
+.active-box { border-color: #10b981 !important; box-shadow: 0 4px 12px rgba(16,185,129,0.3) !important; }
+.active-box .lbl { color: #10b981 !important; }
+
+/* Step 1: Type URL */
+.s1-browser { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 8px;}
+.s1-bar { background: #e2e8f0; height: 16px; border-radius: 4px; display: flex; align-items: center; padding: 0 6px;}
+.s1-url { font-family: 'Fira Code', monospace; font-size: 8px; color: #1e293b; background: white; padding: 2px 6px; border-radius: 3px; flex: 1; margin-left: 6px; display: flex; align-items: center;}
+.s1-url-cursor { width: 1px; height: 8px; background: #2563eb; margin-left: 1px; animation: blink 1s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.s1-kb { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; margin-top: auto;}
+.s1-key { background: #e2e8f0; height: 10px; border-radius: 2px; display: flex; justify-content: center; align-items: center; font-size: 5px; color: #64748b; font-family: 'Inter', sans-serif; font-weight: 800; transition: all 0.1s;}
+.s1-key.pressed { background: #94a3b8; color: white; transform: scale(0.9); }
+.s1-key.enter { background: #3b82f6; grid-column: span 2; color: white; font-size: 6px;}
+.s1-key.enter.pressed { background: #2563eb; }
+
+/* Step 2: DNS Lookup */
+.s2-wrapper { width: 100%; height: 100%; position: relative;}
+.s2-client { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.s2-resolver { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border-color: #3b82f6; background: #eff6ff;}
+.s2-servers { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;}
+.s2-srv { }
+.s2-line { position: absolute; background: #cbd5e1; height: 1px; z-index: 1;}
+.s2-line-1 { width: 15px; left: 35px; top: 50%; }
+.s2-line-2 { width: 35px; left: 80px; top: 50%; transform: rotate(-35deg); transform-origin: left;}
+.s2-line-3 { width: 25px; left: 80px; top: 50%; }
+.s2-line-4 { width: 35px; left: 80px; top: 50%; transform: rotate(35deg); transform-origin: left;}
+
+/* Step 3: TCP */
+.s3-wrapper { width: 100%; height: 100%; display: flex; justify-content: space-between; position: relative;}
+.s3-col { display: flex; flex-direction: column; align-items: center; width: 30px; height: 100%;}
+.s3-node { }
+.s3-vert { width: 1px; flex: 1; background: dashed 1px #cbd5e1; margin-top: 4px; }
+.s3-arr { position: absolute; height: 1.5px; background: #94a3b8; width: 100px; left: 15px; z-index: 1; transition: all 0.3s;}
+.s3-arr::after { content:''; position: absolute; right: -2px; top: -2px; border-top: 3px solid transparent; border-bottom: 3px solid transparent; border-left: 4px solid #94a3b8; transition: all 0.3s;}
+.s3-a1 { top: 35px; transform: rotate(15deg); transform-origin: left; }
+.s3-a2 { top: 60px; right: 15px; left: auto; transform: rotate(15deg); transform-origin: right; }
+.s3-a2::after { right: auto; left: -2px; border-left: none; border-right: 4px solid #94a3b8;}
+.s3-a3 { top: 85px; transform: rotate(15deg); transform-origin: left; }
+.s3-tag { position: absolute; font-size: 5px; font-weight: 800; color: white; background: #3b82f6; padding: 2px 4px; border-radius: 4px; z-index: 3; box-shadow: 0 2px 6px rgba(59,130,246,0.3); transition: all 0.3s;}
+.s3-arr.secure-line { background: #3b82f6; }
+.s3-arr.secure-line::after { border-left-color: #3b82f6; border-right-color: #3b82f6; }
+
+/* Step 4: TLS */
+.s4-wrapper { width: 100%; height: 100%; position: relative;}
+.s4-client { position: absolute; left: 5px; top: 15px; transition: all 0.3s;}
+.s4-server { position: absolute; right: 5px; top: 15px; transition: all 0.3s;}
+.s4-line { position: absolute; height: 1px; background: #cbd5e1; width: 45px; top: 27px; left: 42px; transition: all 0.3s; display:flex; justify-content:space-evenly; align-items:center; z-index:1;}
+.s4-line.secure { background: #10b981; height: 2px; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+.s4-enc-text { font-family: 'Fira Code', monospace; font-size: 4.5px; color: #047857; font-weight: 800; background: #ecfdf5; padding: 1px 2px; border-radius: 2px;}
+.s4-cert { position: absolute; border-color: #10b981; background: #ecfdf5; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2;}
+.s4-lock { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.8); font-size: 16px; color: #94a3b8; z-index: 3; transition: all 0.4s;}
+.s4-lock.secure { color: #10b981; transform: translate(-50%, -50%) scale(1.1); filter: drop-shadow(0 0 4px rgba(16,185,129,0.5)); }
+
+/* Step 5: HTTP */
+.s5-wrapper { width: 100%; height: 100%; position: relative;}
+.s5-client { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.s5-server { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border-color: #3b82f6;}
+.s5-db { width: 30px; height: 35px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); border-radius: 8px;}
+.s5-arr { position: absolute; height: 1px; background: #94a3b8; width: 35px; }
+.s5-arr::after { content:''; position: absolute; border-top: 3px solid transparent; border-bottom: 3px solid transparent;}
+.s5-req { left: 35px; top: 40%; }
+.s5-req::after { right: -2px; top: -2.5px; border-left: 4px solid #94a3b8; }
+.s5-res { left: 35px; top: 60%; }
+.s5-res::after { left: -2px; top: -2.5px; border-right: 4px solid #94a3b8; }
+.s5-tag { position: absolute; font-size: 5px; font-weight: 800; background: white; padding: 1px 3px; border-radius: 4px; border: 1px solid #cbd5e1; color: #1e293b;}
+
+/* Step 6: Render */
+.s6-wrapper { width: 100%; height: 100%; display: flex; gap: 8px;}
+.s6-col { flex: 1; display: flex; flex-direction: column; gap: 4px;}
+.s6-html { font-family: 'Fira Code', monospace; font-size: 5px; color: #2563eb; line-height: 1.4;}
+.s6-dom { display: flex; flex-direction: column; align-items: center; gap: 4px;}
+.s6-node { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #3b82f6; background: #eff6ff;}
+.s6-page { flex: 1; border: 1px solid #cbd5e1; border-radius: 4px; background: white; padding: 4px; display: flex; flex-direction: column; gap: 4px;}
+.s6-pg-head { height: 10px; background: #e2e8f0; border-radius: 2px;}
+.s6-pg-body { flex: 1; display: flex; gap: 4px;}
+.s6-pg-side { width: 15px; background: #f1f5f9; border-radius: 2px;}
+.s6-pg-main { flex: 1; display: flex; flex-direction: column; gap: 4px;}
+.s6-pg-card { height: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 2px;}
+
+.s6-html span { transition: all 0.3s; padding: 0 2px; border-radius: 2px;}
+.s6-html span.active { color: #fff; background: #3b82f6; font-weight: bold;}
+.anim-target { opacity: 0; transform: scale(0.5); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.anim-target.revealed { opacity: 1; transform: scale(1); }
+</style>
+</head>
+<body>
+
+<div class="reel">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>What Happens When<br>You Request a <span class="highlight">URL</span></h1>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid">
+        
+        <!-- STEP 1 -->
+        <div class="card" id="step1">
+            <div class="card-header">
+                <div class="step-num">1</div>
+                <div class="card-title">Type the URL</div>
+            </div>
+            <div class="card-body">
+                <div class="s1-browser">
+                    <div class="s1-bar">
+                        <div style="display:flex; gap:2px;">
+                            <div style="width:4px; height:4px; border-radius:50%; background:#cbd5e1;"></div>
+                            <div style="width:4px; height:4px; border-radius:50%; background:#cbd5e1;"></div>
+                            <div style="width:4px; height:4px; border-radius:50%; background:#cbd5e1;"></div>
+                        </div>
+                        <div class="s1-url"><span id="urlText"></span><span class="s1-url-cursor"></span></div>
+                    </div>
+                    <div style="flex:1; display:flex; justify-content:center; align-items:center;">
+                        <div style="width:16px; height:16px; border: 2px solid #cbd5e1; border-top-color: #3b82f6; border-radius:50%;"></div>
+                    </div>
+                    <div class="s1-kb">
+                        <!-- fake keys -->
+                        <div class="s1-key" id="key-q">q</div><div class="s1-key" id="key-w">w</div><div class="s1-key" id="key-e">e</div><div class="s1-key" id="key-r">r</div><div class="s1-key" id="key-t">t</div><div class="s1-key" id="key-y">y</div><div class="s1-key" id="key-u">u</div><div class="s1-key" id="key-i">i</div><div class="s1-key" id="key-o">o</div><div class="s1-key" id="key-p">p</div>
+                        <div class="s1-key" id="key-a">a</div><div class="s1-key" id="key-s">s</div><div class="s1-key" id="key-d">d</div><div class="s1-key" id="key-f">f</div><div class="s1-key" id="key-g">g</div><div class="s1-key" id="key-h">h</div><div class="s1-key" id="key-j">j</div><div class="s1-key" id="key-k">k</div><div class="s1-key" id="key-l">l</div><div class="s1-key" id="key-.">.</div>
+                        <div class="s1-key" id="key-z">z</div><div class="s1-key" id="key-x">x</div><div class="s1-key" id="key-c">c</div><div class="s1-key" id="key-v">v</div><div class="s1-key" id="key-b">b</div><div class="s1-key" id="key-n">n</div><div class="s1-key" id="key-m">m</div><div class="s1-key"></div>
+                        <div class="s1-key enter" id="key-enter">↵</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="card" id="step2">
+            <div class="card-header">
+                <div class="step-num">2</div>
+                <div class="card-title">DNS lookup</div>
+            </div>
+            <div class="card-body">
+                <div class="s2-wrapper">
+                    <div class="box s2-client"><span class="lbl">client</span></div>
+                    <div class="s2-line s2-line-1" id="dns-l1"><div class="travel-dot"></div></div>
+                    <div class="box s2-resolver" id="dns-res"><span class="lbl" style="color:#2563eb;">resolver</span></div>
+                    
+                    <div class="s2-line s2-line-2" id="dns-l2"><div class="travel-dot"></div></div>
+                    <div class="s2-line s2-line-3" id="dns-l3"><div class="travel-dot"></div></div>
+                    <div class="s2-line s2-line-4" id="dns-l4"><div class="travel-dot"></div></div>
+
+                    <div class="s2-servers">
+                        <div class="box s2-srv" id="dns-root"><span class="lbl">root</span></div>
+                        <div class="box s2-srv" id="dns-com"><span class="lbl">.com</span></div>
+                        <div class="box s2-srv" id="dns-auth"><span class="lbl">auth</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="card" id="step3">
+            <div class="card-header">
+                <div class="step-num">3</div>
+                <div class="card-title">TCP handshake</div>
+            </div>
+            <div class="card-body">
+                <div class="s3-wrapper">
+                    <div class="s3-col">
+                        <div class="box s3-node" id="tcp-client"><span class="lbl">client</span></div>
+                        <div class="s3-vert"></div>
+                    </div>
+                    
+                    <div class="s3-arr s3-a1" id="tcp-a1"><div class="travel-dot"></div></div>
+                    <div class="s3-tag" id="tcp-t1" style="top:25px; left:40px;">SYN</div>
+
+                    <div class="s3-arr s3-a2" id="tcp-a2"><div class="travel-dot"></div></div>
+                    <div class="s3-tag" id="tcp-t2" style="top:50px; left:30px;">SYN-ACK</div>
+
+                    <div class="s3-arr s3-a3" id="tcp-a3"><div class="travel-dot"></div></div>
+                    <div class="s3-tag" id="tcp-t3" style="top:75px; left:40px; background:#10b981; box-shadow:0 2px 6px rgba(16,185,129,0.3);">ACK</div>
+
+                    <div class="s3-col">
+                        <div class="box s3-node" id="tcp-server"><span class="lbl">server</span></div>
+                        <div class="s3-vert"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="card" id="step4">
+            <div class="card-header">
+                <div class="step-num">4</div>
+                <div class="card-title">TLS handshake</div>
+            </div>
+            <div class="card-body">
+                <div class="s4-wrapper">
+                    <div class="box s4-client" id="tls-client"><span class="lbl">client</span></div>
+                    
+                    <div class="s4-line" id="tls-line">
+                        <div class="s4-enc-text" style="display:none;">x9#f2</div>
+                        <div class="s4-enc-text" style="display:none;">x9#f2</div>
+                        <div class="travel-dot"></div>
+                    </div>
+                    
+                    <div class="box s4-server" id="tls-server"><span class="lbl">server</span></div>
+                    
+                    <div class="box s4-cert" id="tls-cert-server" style="right:5px; bottom:5px;">
+                        <span class="lbl" style="color:#10b981;">cert</span>
+                    </div>
+                    
+                    <div class="box s4-cert" id="tls-cert-client" style="left:5px; bottom:5px; opacity:0; transform: scale(0.8);">
+                        <span class="lbl" style="color:#10b981;">cert</span>
+                        <div id="tls-check" style="position:absolute; top:-4px; right:-4px; width:10px; height:10px; background:#10b981; border-radius:50%; color:white; font-size:6px; display:flex; align-items:center; justify-content:center; opacity:0; transition:all 0.3s; box-shadow: 0 2px 4px rgba(16,185,129,0.3);">✓</div>
+                    </div>
+                    
+                    <div class="s4-lock" id="tls-lock">🔒</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="card" id="step5">
+            <div class="card-header">
+                <div class="step-num">5</div>
+                <div class="card-title">HTTP request</div>
+            </div>
+            <div class="card-body">
+                <div class="s5-wrapper">
+                    <div class="box s5-client"><span class="lbl">client</span></div>
+                    
+                    <div class="s5-arr s5-req"><div class="travel-dot"></div></div>
+                    <div class="s5-tag" style="position:absolute; font-size:5px; font-weight:800; z-index:3; padding:2px 4px; border-radius:4px; transition:all 0.3s; top:30%; left:40px; background:#1e293b; color:white; border: 1px solid #3b82f6; box-shadow: 0 2px 6px rgba(59,130,246,0.3);">GET /</div>
+
+                    <div class="s5-arr s5-res"><div class="travel-dot reverse" style="animation-delay:0.6s;"></div></div>
+                    <div class="s5-tag" style="position:absolute; font-size:5px; font-weight:800; z-index:3; padding:2px 4px; border-radius:4px; transition:all 0.3s; top:65%; left:38px; background:#10b981; color:white; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">200 OK</div>
+
+                    <div class="box s5-server"><span class="lbl" style="color:#2563eb;">server</span></div>
+                    
+                    <div style="position:absolute; width:10px; height:1px; background:#cbd5e1; top:50%; right:30px;"></div>
+
+                    <div class="box s5-db" style="border-radius:15px 15px 4px 4px;">
+                        <div style="width:100%; height:8px; border-bottom:1px solid #cbd5e1; border-radius:50% 50% 0 0; background:#f1f5f9;"></div>
+                        <span class="lbl" style="margin-top:auto; margin-bottom:4px;">db</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="card" id="step6">
+            <div class="card-header">
+                <div class="step-num">6</div>
+                <div class="card-title">Render page</div>
+            </div>
+            <div class="card-body">
+                <div class="s6-wrapper">
+                    <div class="s6-col">
+                        <span class="lbl" style="text-align:center;">HTML</span>
+                        <div class="s6-html">
+                            <span id="rn-c-html">&lt;html&gt;</span><br>
+                            &nbsp;<span id="rn-c-head">&lt;head&gt;</span><br>
+                            &nbsp;<span id="rn-c-body">&lt;body&gt;</span><br>
+                            &nbsp;&nbsp;<span id="rn-c-h1">&lt;h1&gt;</span><br>
+                            &nbsp;&nbsp;<span id="rn-c-p">&lt;p&gt;</span>
+                        </div>
+                    </div>
+                    <div style="width:1px; background:#e2e8f0;"></div>
+                    <div class="s6-col" style="align-items:center;">
+                        <span class="lbl">DOM</span>
+                        <div class="s6-dom">
+                            <div class="s6-node anim-target" id="rn-d-html"></div>
+                            <div style="width:1px; height:10px; background:#cbd5e1;" class="anim-target" id="rn-l-headbody"></div>
+                            <div style="display:flex; gap:4px;">
+                                <div class="s6-node anim-target" id="rn-d-head"></div>
+                                <div class="s6-node anim-target" id="rn-d-body"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:1px; background:#e2e8f0;"></div>
+                    <div class="s6-col">
+                        <span class="lbl" style="text-align:center;">Page</span>
+                        <div class="s6-page">
+                            <div class="s6-pg-head anim-target" id="rn-p-head"></div>
+                            <div class="s6-pg-body anim-target" id="rn-p-body">
+                                <div class="s6-pg-side anim-target" id="rn-p-side"></div>
+                                <div class="s6-pg-main">
+                                    <div class="s6-pg-card anim-target" id="rn-p-h1"></div>
+                                    <div class="s6-pg-card anim-target" id="rn-p-p"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+async function runAnimation() {
+    const cards = [
+        document.getElementById('step1'),
+        document.getElementById('step2'),
+        document.getElementById('step3'),
+        document.getElementById('step4'),
+        document.getElementById('step5'),
+        document.getElementById('step6')
+    ];
+
+    // Helper sleep function
+    const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+    // Stagger initial appearance
+    for (let card of cards) {
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1)';
+        await sleep(150);
+    }
+    
+    // Reset back to semi-transparent before sequence starts
+    await sleep(500);
+    cards.forEach(c => {
+        c.style.opacity = '0.5';
+        c.style.transform = 'scale(0.98)';
+    });
+    
+    await sleep(500);
+
+    // Type URL animation
+    async function typeUrlAnimation() {
+        const urlText = "piecoding.com";
+        const urlEl = document.getElementById("urlText");
+        urlEl.textContent = "";
+        
+        await sleep(300);
+        
+        for (let char of urlText) {
+            urlEl.textContent += char;
+            const keyEl = document.getElementById("key-" + char);
+            if (keyEl) {
+                keyEl.classList.add("pressed");
+                setTimeout(() => keyEl.classList.remove("pressed"), 100);
+            }
+            await sleep(100); 
+        }
+        
+        await sleep(300);
+        const enter = document.getElementById("key-enter");
+        enter.classList.add("pressed");
+        setTimeout(() => enter.classList.remove("pressed"), 150);
+        await sleep(300);
+    }
+
+    async function dnsAnimation() {
+        const l1 = document.getElementById("dns-l1").querySelector(".travel-dot");
+        const l2 = document.getElementById("dns-l2").querySelector(".travel-dot");
+        const l3 = document.getElementById("dns-l3").querySelector(".travel-dot");
+        const l4 = document.getElementById("dns-l4").querySelector(".travel-dot");
+        const root = document.getElementById("dns-root");
+        const com = document.getElementById("dns-com");
+        const auth = document.getElementById("dns-auth");
+        const res = document.getElementById("dns-res");
+        
+        [l1, l2, l3, l4].forEach(d => { d.className = "travel-dot"; d.style.animationDelay = "0s"; });
+        [root, com, auth, res].forEach(b => b.classList.remove("active-box"));
+
+        await sleep(300);
+        
+        l1.className = "travel-dot ping";
+        await sleep(400);
+        res.classList.add("active-box");
+        
+        l2.className = "travel-dot ping";
+        await sleep(400);
+        root.classList.add("active-box");
+        await sleep(200);
+        l2.className = "travel-dot pong";
+        await sleep(400);
+        root.classList.remove("active-box");
+        
+        l3.className = "travel-dot ping";
+        await sleep(400);
+        com.classList.add("active-box");
+        await sleep(200);
+        l3.className = "travel-dot pong";
+        await sleep(400);
+        com.classList.remove("active-box");
+
+        l4.className = "travel-dot ping";
+        await sleep(400);
+        auth.classList.add("active-box");
+        await sleep(200);
+        l4.className = "travel-dot pong";
+        await sleep(400);
+        auth.classList.remove("active-box");
+        
+        l1.className = "travel-dot pong";
+        await sleep(600);
+        res.classList.remove("active-box");
+    }
+
+    async function tcpAnimation() {
+        const client = document.getElementById("tcp-client");
+        const server = document.getElementById("tcp-server");
+        
+        const a1 = document.getElementById("tcp-a1");
+        const t1 = document.getElementById("tcp-t1");
+        const d1 = a1.querySelector(".travel-dot");
+        
+        const a2 = document.getElementById("tcp-a2");
+        const t2 = document.getElementById("tcp-t2");
+        const d2 = a2.querySelector(".travel-dot");
+        
+        const a3 = document.getElementById("tcp-a3");
+        const t3 = document.getElementById("tcp-t3");
+        const d3 = a3.querySelector(".travel-dot");
+
+        [client, server].forEach(b => b.classList.remove("active-box"));
+        [a1, a2, a3, t1, t2, t3].forEach(el => el.style.opacity = "0");
+        [a1, a2, a3].forEach(el => el.classList.remove("secure-line"));
+        [d1, d2, d3].forEach(d => { d.className = "travel-dot"; d.style.animationDelay = "0s"; });
+
+        await sleep(300);
+
+        client.classList.add("active-box");
+        a1.style.opacity = "1";
+        t1.style.opacity = "1";
+        t1.style.transform = "scale(1.1)";
+        d1.className = "travel-dot ping";
+        await sleep(400);
+
+        server.classList.add("active-box");
+        a2.style.opacity = "1";
+        t2.style.opacity = "1";
+        t2.style.transform = "scale(1.1)";
+        d2.className = "travel-dot pong";
+        await sleep(400);
+
+        a3.style.opacity = "1";
+        t3.style.opacity = "1";
+        t3.style.transform = "scale(1.1)";
+        d3.className = "travel-dot ping";
+        await sleep(400);
+        
+        [a1, a2, a3].forEach(a => a.classList.add("secure-line"));
+        await sleep(600);
+    }
+
+    async function tlsAnimation() {
+        const client = document.getElementById("tls-client");
+        const server = document.getElementById("tls-server");
+        const lock = document.getElementById("tls-lock");
+        const line = document.getElementById("tls-line");
+        const certC = document.getElementById("tls-cert-client");
+        const check = document.getElementById("tls-check");
+        const texts = line.querySelectorAll(".s4-enc-text");
+        const dot = line.querySelector(".travel-dot");
+
+        client.classList.remove("active-box");
+        server.classList.remove("active-box");
+        lock.classList.remove("secure");
+        line.classList.remove("secure");
+        certC.style.opacity = "0";
+        certC.style.transition = "none";
+        check.style.opacity = "0";
+        texts.forEach(t => t.style.display = "none");
+        dot.className = "travel-dot";
+
+        await sleep(300);
+
+        client.classList.add("active-box");
+        dot.className = "travel-dot ping";
+        await sleep(400);
+
+        server.classList.add("active-box");
+        dot.className = "travel-dot pong";
+        await sleep(200);
+        
+        // Slide cert
+        certC.style.left = "80px";
+        certC.style.opacity = "1";
+        void certC.offsetWidth;
+        
+        certC.style.transition = "all 0.6s ease-in-out";
+        certC.style.left = "5px";
+        await sleep(600);
+        
+        check.style.opacity = "1";
+        await sleep(300);
+
+        lock.classList.add("secure");
+        line.classList.add("secure");
+        texts.forEach(t => t.style.display = "block");
+        
+        dot.className = "travel-dot ping loop";
+        await sleep(800);
+    }
+
+    async function renderAnimation() {
+        const els = ["html", "body", "nav", "h1", "img", "p", "btn"];
+        
+        // Initial state hide
+        els.forEach(id => {
+            const code = document.getElementById("c-" + id);
+            const dom = document.getElementById("d-" + id);
+            const line = document.getElementById("l-" + id);
+            const page = document.getElementById("p-" + id);
+            
+            if (code) code.classList.remove("active");
+            if (dom) { dom.style.opacity = "0"; dom.style.transform = "translate(-50%, -50%) scale(0)"; }
+            if (line) { line.style.opacity = "0"; }
+            if (page) { page.style.opacity = "0"; page.style.transform = "scale(0.8)"; }
+        });
+
+        await sleep(300);
+
+        // Sequence
+        for (let id of els) {
+            const code = document.getElementById("c-" + id);
+            const dom = document.getElementById("d-" + id);
+            const line = document.getElementById("l-" + id);
+            const page = document.getElementById("p-" + id);
+
+            if (code) code.classList.add("active");
+            if (line) line.style.opacity = "1";
+            
+            await sleep(100);
+            
+            if (dom) {
+                dom.style.opacity = "1";
+                dom.style.transform = "translate(-50%, -50%) scale(1)";
+            }
+            if (page) {
+                page.style.opacity = "1";
+                page.style.transform = "scale(1)";
+            }
+            
+            await sleep(400); 
+        }
+        await sleep(600);
+    }
+
+    async function renderAnimation() {
+        const sequence = [
+            { c: "html", d: ["rn-d-html"], p: [] },
+            { c: "head", d: ["rn-l-headbody", "rn-d-head"], p: ["rn-p-head"] },
+            { c: "body", d: ["rn-d-body"], p: ["rn-p-body", "rn-p-side"] },
+            { c: "h1", d: [], p: ["rn-p-h1"] },
+            { c: "p", d: [], p: ["rn-p-p"] }
+        ];
+
+        document.querySelectorAll(".s6-html span").forEach(el => el.classList.remove("active"));
+        document.querySelectorAll(".anim-target").forEach(el => el.classList.remove("revealed"));
+
+        await sleep(300);
+
+        for (let step of sequence) {
+            const code = document.getElementById("rn-c-" + step.c);
+            if (code) code.classList.add("active");
+            
+            for (let dId of step.d) {
+                const domNode = document.getElementById(dId);
+                if (domNode) domNode.classList.add("revealed");
+            }
+            
+            for (let pId of step.p) {
+                const pgNode = document.getElementById(pId);
+                if (pgNode) pgNode.classList.add("revealed");
+            }
+            
+            await sleep(600);
+        }
+        await sleep(600);
+    }
+
+    // Sequence through each step
+    for (let i = 0; i < cards.length; i++) {
+        // Remove active from previous
+        if (i > 0) cards[i-1].classList.remove('active');
+        
+        // Activate current
+        cards[i].classList.add('active');
+        
+        if (i === 0) {
+            await typeUrlAnimation();
+        } else if (i === 1) {
+            await dnsAnimation();
+        } else if (i === 2) {
+            await tcpAnimation();
+        } else if (i === 3) {
+            await tlsAnimation();
+        } else if (i === 5) {
+            await renderAnimation();
+        } else {
+            await sleep(1800);
+        }
+    }
+
+    // Final state: all active and fully opaque
+    cards.forEach(c => c.classList.add('active'));
+}
+
+// Start animation loop on load
+window.onload = async () => {
+    while(true) {
+        await runAnimation();
+        await new Promise(res => setTimeout(res, 3000)); // wait before looping
+        // Reset
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(c => {
+            c.classList.remove('active');
+            c.style.opacity = '0.5';
+            c.style.transform = 'scale(0.98)';
+        });
+        await new Promise(res => setTimeout(res, 500));
+    }
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PIE Coding School Visual Lab — SQL</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="header">
+
+            <div class="brand">
+                <img src="../../piecodingschool1.png" alt="PIE Logo" class="logo-img">
+
+                <div>
+                    <h1>PIE Coding School</h1>
+                    <span>SQL</span>
+                </div>
+            </div>
+
+            <div class="heading">
+                <h2>10 SQL COMMANDS</h2>
+                <p>Every Developer Should Know</p>
+            </div>
+
+            <button id="playBtn">
+                ▶ PLAY
+            </button>
+
+        </header>
+
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="main">
+
+
+            <!-- ================= LEFT ================= -->
+
+            <aside class="sidebar">
+
+                <div class="sidebar-heading">
+
+                    <span>SQL COMMANDS</span>
+
+                    <span id="progress">
+                        0 / 10
+                    </span>
+
+                </div>
+
+
+                <div id="commandList">
+
+                    <div class="command" data-index="0">
+                        <span class="number">01</span>
+                        <span>CREATE TABLE</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="1">
+                        <span class="number">02</span>
+                        <span>INSERT</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="2">
+                        <span class="number">03</span>
+                        <span>SELECT</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="3">
+                        <span class="number">04</span>
+                        <span>WHERE</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="4">
+                        <span class="number">05</span>
+                        <span>UPDATE</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="5">
+                        <span class="number">06</span>
+                        <span>DELETE</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="6">
+                        <span class="number">07</span>
+                        <span>ORDER BY</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="7">
+                        <span class="number">08</span>
+                        <span>GROUP BY</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="8">
+                        <span class="number">09</span>
+                        <span>JOIN</span>
+                        <b></b>
+                    </div>
+
+                    <div class="command" data-index="9">
+                        <span class="number">10</span>
+                        <span>COUNT</span>
+                        <b></b>
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- ================= RIGHT ================= -->
+
+            <section class="workspace">
+
+
+                <!-- ================= SQL EDITOR ================= -->
+
+                <div class="editor">
+
+                    <div class="editor-top">
+
+                        <div class="dots">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                        </div>
+
+                        <span>
+                            SQL COMMAND
+                        </span>
+
+                        <b id="editorCommand">
+                            READY
+                        </b>
+
+                    </div>
+
+
+                    <pre id="sqlCode">
+-- Select a command
+-- to visualize SQL
+                    </pre>
+
+                </div>
+
+
+                <!-- ================= EXPLANATION ================= -->
+
+                <div class="explanation">
+
+                    <strong>
+                        WHAT HAPPENED?
+                    </strong>
+
+                    <p id="explanation">
+                        Select a SQL command to start the visualization.
+                    </p>
+
+                </div>
+
+
+                <!-- FLOW -->
+
+                <div class="flow-area">
+
+
+                    <!-- QUERY -->
+
+                    <div class="query-box">
+
+                        <div class="icon">
+                            &lt;/&gt;
+                        </div>
+
+                        <div>
+                            <small>QUERY</small>
+                            <strong id="queryTitle">
+                                SQL COMMAND
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUERY LINE -->
+
+                    <div class="connection">
+
+                        <span>REQUEST</span>
+
+                        <div class="line"></div>
+
+                        <div id="requestPacket" class="packet">
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= DATABASE ================= -->
+
+                    <div id="database" class="database">
+
+                        <div class="database-top">
+
+                            <div class="db-icon">
+                                ◉
+                            </div>
+
+                            <div>
+
+                                <small>DATABASE</small>
+
+                                <strong>
+                                    SQL DATABASE
+                                </strong>
+
+                            </div>
+
+                            <div class="online">
+                                <i></i>
+                                ONLINE
+                            </div>
+
+                        </div>
+
+
+                        <!-- DATABASE CONTENT -->
+
+                        <div id="databaseContent">
+
+                            <div class="database-empty">
+
+                                <div class="empty-icon">
+                                    ▣
+                                </div>
+
+                                <strong>
+                                    Database is empty
+                                </strong>
+
+                                <span>
+                                    CREATE TABLE to begin
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESPONSE LINE -->
+
+                    <div class="connection response">
+
+                        <span>RESPONSE</span>
+
+                        <div class="line"></div>
+
+                        <div id="responsePacket" class="packet">
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= RESULT ================= -->
+
+                    <div class="result-box">
+
+                        <div class="result-top">
+
+                            <div>
+
+                                <small>RESULT</small>
+
+                                <strong>
+                                    QUERY OUTPUT
+                                </strong>
+
+                            </div>
+
+                            <div class="success">
+                                ✓
+                            </div>
+
+                        </div>
+
+
+                        <div id="result">
+
+                            <div class="result-empty">
+                                Waiting...
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+
+        <footer>
+
+            <span>
+                PIE VISUAL LAB
+            </span>
+
+            <span>
+                BUILD • VISUALIZE • LEARN
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

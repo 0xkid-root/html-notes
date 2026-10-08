@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>API Request Flow V4 - Reel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+:root{--bg:#e2e8f0;--ink:#0f172a;--blue:#2563eb;--green:#16a34a;--purple:#a855f7;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);font-family:'Inter',system-ui,sans-serif;display:flex;justify-content:center;align-items:center;overflow:hidden;cursor:pointer}
+
+/* REEL FRAME */
+.reel{width:420px;height:747px;flex:none;position:relative;overflow:hidden;
+background:linear-gradient(135deg,#f0f5ff 0%,#e0e7ff 100%);color:var(--ink);border-radius:40px;
+box-shadow:0 0 50px rgba(0,0,0,.2),inset 0 0 0 8px #fff,inset 0 0 0 9px #e2e8f0;transform-origin:center}
+.reel::before{content:"";position:absolute;inset:0;
+background-image:linear-gradient(rgba(37,99,235,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.05) 1px,transparent 1px);
+background-size:40px 40px;mask-image:radial-gradient(circle at 50% 50%,black,transparent 80%);animation:gridDrift 8s linear infinite}
+@keyframes gridDrift{to{background-position:40px 40px}}
+
+/* floating particles */
+.particles i{position:absolute;border-radius:50%;background:rgba(37,99,235,.22);animation:floatUp linear infinite;z-index:1}
+@keyframes floatUp{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(-780px);opacity:0}}
+
+/* progress bar */
+.progress{position:absolute;top:16px;left:30px;right:30px;display:flex;gap:5px;z-index:30}
+.progress span{flex:1;height:3px;border-radius:3px;background:rgba(37,99,235,.15);overflow:hidden}
+.progress span b{display:block;height:100%;width:0;background:var(--blue);border-radius:3px;transition:width .6s ease}
+.progress span.on b{width:100%}
+
+/* HOOK */
+.hook-overlay{position:absolute;inset:0;background:linear-gradient(135deg,#f8fafc 0%,#eff6ff 100%);z-index:100;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px;transition:opacity .8s ease,visibility .8s,transform .8s}
+.hook-overlay.hide{opacity:0;visibility:hidden;transform:scale(1.08)}
+.hook-brand-text{position:absolute;top:50px;left:0;right:0;font-size:18px;font-weight:900;color:#1e293b;letter-spacing:4px;opacity:0;animation:hookBrand .8s ease forwards}
+@keyframes hookBrand{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.hook-content{opacity:0;transform:translateY(20px) scale(.95);animation:hookIn .9s .2s cubic-bezier(.175,.885,.32,1.275) forwards}
+@keyframes hookIn{to{opacity:1;transform:none}}
+.hook-text{font-size:36px;font-weight:900;line-height:1.2;background:linear-gradient(to right,#1e293b,#2563eb,#1e293b);background-size:200% 100%;
+-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 2.5s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.hook-eyes{display:inline-block;animation:look 1.2s ease-in-out infinite}
+@keyframes look{0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+.hook-sub{margin-top:18px;font-size:13px;font-weight:700;color:#64748b;letter-spacing:1px;opacity:0;animation:hookBrand .8s 1s ease forwards}
+.hook-ring{position:absolute;width:260px;height:260px;border-radius:50%;border:2px solid rgba(37,99,235,.25);animation:ring 2.4s ease-out infinite}
+.hook-ring.r2{animation-delay:1.2s}
+@keyframes ring{from{transform:scale(.4);opacity:1}to{transform:scale(2.2);opacity:0}}
+
+/* HEADER */
+.header{position:absolute;top:35px;left:30px;right:30px;z-index:20;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:2px;color:var(--blue);font-weight:900}
+.brand-icon{font-size:16px;font-family:serif;font-weight:bold;color:var(--blue)}
+.step-label{font-size:10px;font-weight:800;color:#fff;background:var(--blue);padding:6px 12px;border-radius:20px;letter-spacing:1px;box-shadow:0 4px 10px rgba(37,99,235,.3)}
+.step-label.pop{animation:pop .45s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes pop{0%{transform:scale(.7);opacity:.3}100%{transform:scale(1);opacity:1}}
+
+/* STAGE */
+.stage{position:absolute;left:15px;right:15px;top:90px;height:550px;z-index:10}
+.component{position:absolute;opacity:0;transform:scale(.9) translateY(10px);transition:opacity .5s ease,transform .6s cubic-bezier(.175,.885,.32,1.275);pointer-events:none}
+.component.show{opacity:1;transform:scale(1) translateY(0)}
+.flow-node{background:#fff;border-radius:16px;box-shadow:0 10px 30px -5px rgba(37,99,235,.1),0 4px 6px -2px rgba(0,0,0,.05);border:1px solid rgba(226,232,240,.8);color:var(--ink);overflow:hidden}
+
+/* BROWSER */
+.browser{width:280px;left:50%;top:15px;transform:translateX(-50%) scale(.9) translateY(10px);z-index:5}
+.browser.show{transform:translateX(-50%) scale(1) translateY(0)}
+.browser-top{height:28px;background:#f8fafc;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:6px;padding-left:12px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot:nth-child(1){background:#ef4444}.dot:nth-child(2){background:#f59e0b}.dot:nth-child(3){background:#22c55e}
+.browser-body{padding:14px}
+.node-label{font-size:10px;color:#64748b;font-weight:800;letter-spacing:1px;margin-bottom:8px}
+.search-box{border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;background:#fff;box-shadow:inset 0 2px 4px rgba(0,0,0,.02);color:#1e293b;display:flex;align-items:center;gap:8px;transition:border-color .3s,box-shadow .3s}
+.search-box.focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.search-box::before{content:'🔍';font-size:12px;opacity:.5}
+.caret{display:inline-block;width:1.5px;height:14px;background:var(--blue);margin-left:1px;animation:blink .7s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.search-button{margin-top:10px;display:inline-block;padding:8px 16px;border-radius:8px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;box-shadow:0 4px 12px rgba(37,99,235,.3);position:relative;overflow:hidden;transition:transform .15s}
+.search-button.press{transform:scale(.93)}
+.click-effect{position:absolute;width:30px;height:30px;background:rgba(255,255,255,.6);border-radius:50%;transform:scale(0);opacity:0;top:50%;left:50%;margin-top:-15px;margin-left:-15px}
+@keyframes clickBurst{0%{transform:scale(0);opacity:1}100%{transform:scale(4);opacity:0}}
+
+/* mouse cursor */
+.cursor{position:absolute;left:330px;top:300px;width:22px;height:22px;z-index:30;opacity:0;transition:left .9s cubic-bezier(.4,0,.2,1),top .9s cubic-bezier(.4,0,.2,1),opacity .3s;filter:drop-shadow(0 3px 4px rgba(15,23,42,.3));pointer-events:none}
+.cursor.show{opacity:1}
+
+/* SERVER */
+.server{width:270px;left:50%;top:190px;transform:translateX(-50%) scale(.9);z-index:5}
+.server.show{transform:translateX(-50%) scale(1)}
+.server.processing{box-shadow:0 0 0 2px rgba(37,99,235,.3),0 10px 30px rgba(37,99,235,.2);animation:pulseBorder 1.5s infinite alternate}
+@keyframes pulseBorder{to{box-shadow:0 0 0 4px rgba(37,99,235,.5),0 15px 40px rgba(37,99,235,.3)}}
+.server-header,.db-header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f1f5f9}
+.server-icon,.db-icon{font-size:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.server-icon{background:rgba(37,99,235,.1);color:var(--blue)}
+.processing .server-icon{animation:spin 2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.db-icon{background:rgba(168,85,247,.1);color:var(--purple)}
+.server-name,.db-name{font-weight:800;font-size:12px;letter-spacing:.5px}
+.terminal{background:#f8fafc;padding:10px 14px;font-family:'Fira Code',monospace;font-size:9px;color:#475569;line-height:1.5;height:80px;position:relative;border-top:1px solid #f1f5f9}
+.term-line{display:none}
+.term-line.show{display:block;animation:lineIn .3s ease}
+@keyframes lineIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.term-highlight{color:var(--blue);font-weight:700}
+.term-success{color:var(--green);font-weight:700}
+
+/* DATABASE */
+.database{width:250px;left:50%;top:350px;transform:translateX(-50%) scale(.9);z-index:5}
+.database.show{transform:translateX(-50%) scale(1)}
+.records{padding:10px 14px;display:flex;flex-direction:column;gap:6px;position:relative;background:#f8fafc}
+.record{padding:6px 10px;border-radius:6px;background:#fff;font-family:'Fira Code',monospace;font-size:9px;color:#64748b;display:flex;justify-content:space-between;align-items:center;border:1px solid #e2e8f0;transition:all .3s}
+.record.hit{border-color:#93c5fd;background:#eff6ff;color:var(--blue)}
+.record.match{background:#dcfce7;color:var(--green);font-weight:600;border:1px solid #22c55e;box-shadow:0 4px 10px rgba(34,197,94,.2);animation:matchPop .5s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes matchPop{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+.scanner{position:absolute;top:0;left:0;right:0;height:20px;background:linear-gradient(to bottom,transparent,rgba(59,130,246,.2),#3b82f6);opacity:0;border-bottom:2px solid var(--blue);pointer-events:none;border-radius:6px;z-index:5}
+.database.scanning .scanner{animation:scanAnimation 1.5s ease-in-out}
+@keyframes scanAnimation{0%{top:0;opacity:1}80%{top:calc(100% - 20px);opacity:1}100%{top:calc(100% - 20px);opacity:0}}
+
+/* CONNECTIONS & PACKETS */
+.connection-path{position:absolute;width:2px;background:rgba(37,99,235,.2);z-index:1;transform-origin:top;transform:translateX(-50%) scaleY(0);transition:transform .6s ease,opacity .4s}
+.connection-path.draw{transform:translateX(-50%) scaleY(1)}
+.connection-path::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,var(--blue) 0 6px,transparent 6px 14px);opacity:.55;animation:flow .6s linear infinite}
+@keyframes flow{to{background-position:0 14px}}
+.path-1{left:50%;top:140px;height:50px}
+.path-2{left:50%;top:310px;height:40px}
+.data-packet{position:absolute;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;font-family:'Fira Code',monospace;font-size:9px;font-weight:600;color:var(--ink);box-shadow:0 10px 20px rgba(37,99,235,.2),0 0 18px rgba(37,99,235,.25);z-index:15;opacity:0;white-space:pre;line-height:1.4;left:50%;transform:translateX(-50%) scale(.5)}
+.data-packet::before{content:'HTTP GET';display:block;font-size:7px;color:var(--blue);font-weight:700;margin-bottom:4px}
+.data-packet.db-packet::before{content:'SQL QUERY';color:#8b5cf6}
+.data-packet.response{border-color:#22c55e;color:var(--green);box-shadow:0 10px 20px rgba(34,197,94,.2),0 0 18px rgba(34,197,94,.3)}
+.data-packet.response::before{content:'200 OK';color:var(--green)}
+@keyframes packetDown{0%{top:130px;opacity:0;transform:translateX(-50%) scale(.5)}10%{opacity:1;transform:translateX(-50%) scale(1)}90%{opacity:1;transform:translateX(-50%) scale(1)}100%{top:190px;opacity:0;transform:translateX(-50%) scale(.5)}}
+@keyframes packetDownDb{0%{top:300px;opacity:0;transform:translateX(-50%) scale(.5)}10%{opacity:1;transform:translateX(-50%) scale(1)}90%{opacity:1;transform:translateX(-50%) scale(1)}100%{top:350px;opacity:0;transform:translateX(-50%) scale(.5)}}
+@keyframes packetUp{0%{top:350px;opacity:0;transform:translateX(-50%) scale(.5)}10%{opacity:1;transform:translateX(-50%) scale(1)}90%{opacity:1;transform:translateX(-50%) scale(1)}100%{top:140px;opacity:0;transform:translateX(-50%) scale(.5)}}
+
+/* latency chip */
+.latency{position:absolute;left:50%;top:648px;transform:translateX(-50%) translateY(8px);z-index:20;opacity:0;transition:all .4s;
+display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:6px 14px;box-shadow:0 6px 16px rgba(37,99,235,.15);font-family:'Fira Code',monospace;font-size:11px;font-weight:600;color:#475569}
+.latency.show{opacity:1;transform:translateX(-50%)}
+.latency b{color:var(--blue);min-width:42px;text-align:right;font-variant-numeric:tabular-nums}
+.latency i{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:live 1s infinite}
+@keyframes live{50%{opacity:.3}}
+
+/* RESULTS */
+.results{width:340px;left:50%;top:50px;transform:translateX(-50%) scale(.9);z-index:20;padding:24px;background:#fff!important;border:2px dotted var(--blue)!important;box-shadow:0 20px 40px -10px rgba(37,99,235,.2)!important}
+.results.show{transform:translateX(-50%) scale(1)}
+.result-heading{font-size:24px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:8px}
+.result-card{margin-top:16px;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 4px 6px -1px rgba(0,0,0,.05);opacity:0;transform:translateY(15px);position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;top:0;left:-150%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(37,99,235,.03),rgba(37,99,235,.1),rgba(37,99,235,.03),transparent);transform:skewX(-20deg);animation:movingRay 3s infinite;pointer-events:none}
+@keyframes movingRay{0%{left:-150%}20%{left:200%}100%{left:200%}}
+.results.show .result-card{animation:resultIn .6s cubic-bezier(.175,.885,.32,1.275) forwards}
+.results.show .result-card:nth-child(2){animation-delay:.2s}.results.show .result-card:nth-child(2)::before{animation-delay:1.2s}
+.results.show .result-card:nth-child(3){animation-delay:.45s}.results.show .result-card:nth-child(3)::before{animation-delay:1.45s}
+.results.show .result-card:nth-child(4){animation-delay:.7s}.results.show .result-card:nth-child(4)::before{animation-delay:1.7s}
+@keyframes resultIn{to{opacity:1;transform:translateY(0)}}
+.result-title{font-weight:800;font-size:14px;color:var(--blue)}
+.result-text{margin-top:6px;font-size:12px;color:#64748b;line-height:1.4}
+.success-msg{margin-top:20px;font-size:13px;color:var(--green);font-weight:800;text-align:center;background:#dcfce7;padding:8px;border-radius:8px;opacity:0}
+.results.show .success-msg{animation:resultIn .6s 1.1s forwards}
+.final-wow{position:absolute;bottom:50px;left:30px;right:30px;text-align:center;font-size:19px;font-weight:900;line-height:1.3;background:linear-gradient(to right,#1e293b,#2563eb);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0;transform:translateY(20px)}
+.final-wow.show{animation:wowIn 1s 1.6s forwards}
+@keyframes wowIn{to{opacity:1;transform:translateY(0)}}
+.spark{position:absolute;width:7px;height:7px;border-radius:50%;z-index:50;pointer-events:none}
+.replay{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;color:#94a3b8;opacity:0;transition:opacity .6s}
+.replay.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.particles{display:none}}
+</style>
+</head>
+<body>
+<div class="reel" id="reel">
+  <div class="particles" id="particles"></div>
+
+  <div class="hook-overlay" id="hookOverlay">
+    <div class="hook-ring"></div><div class="hook-ring r2"></div>
+    <div class="hook-brand-text">PIE CODING SCHOOLS</div>
+    <div class="hook-content">
+      <div class="hook-text">What REALLY happens<br>when you search? <span class="hook-eyes">👀</span></div>
+      <div class="hook-sub">WATCH THE JOURNEY OF ONE REQUEST</div>
+    </div>
+  </div>
+
+  <div class="progress" id="progress"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></div>
+
+  <div class="header">
+    <div class="brand"><span class="brand-icon">π</span> Pie Coding</div>
+    <div class="step-label" id="stepLabel">01 — SEARCH</div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="component browser flow-node" id="browser">
+      <div class="browser-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="browser-body">
+        <div class="node-label">BROWSER APP</div>
+        <div class="search-box" id="searchBox"><span id="typed"></span><span class="caret"></span></div>
+        <div class="search-button" id="searchBtn">Search<div class="click-effect" id="clickEffect"></div></div>
+      </div>
+    </div>
+
+    <div class="connection-path path-1" id="path1"></div>
+    <div class="connection-path path-2" id="path2"></div>
+
+    <div class="component server flow-node" id="server">
+      <div class="server-header"><div class="server-icon">⚙️</div><div class="server-name">BACKEND SERVER</div></div>
+      <div class="terminal">
+        <div class="term-line" id="tl1"><span class="term-success">✓ TLS</span> HANDSHAKE OK</div>
+        <div class="term-line" id="tl2">&gt; <span class="term-highlight">GET</span> /api/search?q=javascript</div>
+        <div class="term-line" id="tl3">&gt; Validating query params...</div>
+        <div class="term-line" id="tl4">&gt; Authenticating ░░░░░░░░░░</div>
+        <div class="term-line" id="tl5">&gt; Dispatching DB Query...</div>
+      </div>
+    </div>
+
+    <div class="component database flow-node" id="database">
+      <div class="db-header"><div class="db-icon">🗄️</div><div class="db-name">POSTGRESQL DB</div></div>
+      <div class="records" id="records">
+        <div class="scanner"></div>
+        <div class="record" data-m="1"><span>JavaScript Basics</span><span>ID: 12</span></div>
+        <div class="record"><span>React Guide</span><span>ID: 41</span></div>
+        <div class="record" data-m="1"><span>JavaScript Guide</span><span>ID: 57</span></div>
+        <div class="record" data-m="1"><span>JavaScript Tutorial</span><span>ID: 63</span></div>
+      </div>
+    </div>
+
+    <div class="data-packet" id="reqPacket1">/search?q=javascript</div>
+    <div class="data-packet db-packet" id="reqPacket2">SELECT * FROM topics&#13;&#10;WHERE title ILIKE '%javascript%'</div>
+    <div class="data-packet response" id="resPacket">{ "data": [...] }</div>
+
+    <svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z" fill="#0f172a" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+
+    <div class="component results flow-node" id="results">
+      <div class="result-heading">🔍 Results</div>
+      <div class="result-card"><div class="result-title">JavaScript Basics</div><div class="result-text">Learn JavaScript from the beginning.</div></div>
+      <div class="result-card"><div class="result-title">JavaScript Guide</div><div class="result-text">Complete JavaScript learning guide.</div></div>
+      <div class="result-card"><div class="result-title">JavaScript Tutorial</div><div class="result-text">Examples and practical concepts.</div></div>
+      <div class="success-msg">✓ 3 Results loaded instantly</div>
+    </div>
+  </div>
+
+  <div class="latency" id="latency"><i></i>LATENCY <b id="ms">0</b> ms</div>
+  <div class="final-wow" id="finalWow">That entire journey happened<br>in milliseconds. ⚡</div>
+  <div class="replay" id="replay">TAP ANYWHERE TO REPLAY</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const steps = [...document.querySelectorAll('#progress span')];
+
+// fit reel to any screen (great for screen recording)
+function fit(){
+  const s = Math.min((innerHeight - 24) / 747, (innerWidth - 24) / 420, 1.5);
+  $('reel').style.transform = 'scale(' + s + ')';
+}
+addEventListener('resize', fit); fit();
+
+// background particles
+const pc = $('particles');
+for (let i = 0; i < 14; i++){
+  const p = document.createElement('i'), s = 3 + Math.random() * 5;
+  p.style.cssText = `left:${Math.random()*100}%;top:${300+Math.random()*480}px;width:${s}px;height:${s}px;animation-duration:${7+Math.random()*8}s;animation-delay:${-Math.random()*10}s`;
+  pc.appendChild(p);
+}
+
+function setStep(n, text){
+  const l = $('stepLabel');
+  l.textContent = text; l.classList.remove('pop'); void l.offsetWidth; l.classList.add('pop');
+  steps.forEach((s, i) => s.classList.toggle('on', i <= n));
+}
+
+function count(el, to, dur){
+  const t0 = performance.now(), from = +el.textContent || 0;
+  (function f(t){
+    const k = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = Math.round(from + (to - from) * e);
+    if (k < 1) requestAnimationFrame(f);
+  })(t0);
+}
+
+function bar(p){
+  const n = Math.round(p / 10);
+  $('tl4').innerHTML = '&gt; Authenticating ' + '█'.repeat(n) + '░'.repeat(10 - n) + (p >= 100 ? ' <span class="term-success">✓</span>' : '');
+}
+
+function burst(){
+  const stage = $('reel'), colors = ['#2563eb','#22c55e','#a855f7','#f59e0b','#3b82f6'];
+  for (let i = 0; i < 26; i++){
+    const d = document.createElement('div');
+    d.className = 'spark'; d.style.background = colors[i % colors.length];
+    d.style.left = '210px'; d.style.top = '290px';
+    stage.appendChild(d);
+    const a = Math.random() * Math.PI * 2, r = 110 + Math.random() * 130;
+    d.animate([
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${Math.cos(a)*r}px,${Math.sin(a)*r}px) scale(0)`, opacity: 0 }
+    ], { duration: 900 + Math.random() * 500, easing: 'cubic-bezier(.2,.8,.3,1)' }).onfinish = () => d.remove();
+  }
+}
+
+async function play(){
+  await sleep(2600);
+  $('hookOverlay').classList.add('hide');
+  await sleep(700);
+
+  // 01 SEARCH
+  setStep(0, '01 — SEARCH');
+  $('browser').classList.add('show');
+  await sleep(900);
+  $('searchBox').classList.add('focus');
+  for (const ch of 'JavaScript'){ $('typed').textContent += ch; await sleep(95); }
+  await sleep(350);
+
+  // cursor glides to button
+  const cur = $('cursor'), b = $('browser'), btn = $('searchBtn');
+  const tx = b.offsetLeft - b.offsetWidth / 2 + btn.offsetLeft + btn.offsetWidth / 2 - 4;
+  const ty = b.offsetTop + btn.offsetTop + btn.offsetHeight / 2 - 2;
+  cur.classList.add('show');
+  void cur.offsetWidth;
+  cur.style.left = tx + 'px'; cur.style.top = ty + 'px';
+  await sleep(1000);
+  btn.classList.add('press');
+  $('clickEffect').style.animation = 'clickBurst .45s ease-out forwards';
+  await sleep(160); btn.classList.remove('press');
+  await sleep(300);
+  cur.classList.remove('show');
+  $('searchBox').classList.remove('focus');
+
+  // 02 REQUEST
+  setStep(1, '02 — REQUEST');
+  $('latency').classList.add('show');
+  count($('ms'), 12, 1200);
+  $('path1').classList.add('draw');
+  $('reqPacket1').style.animation = 'packetDown 1.5s cubic-bezier(.4,0,.2,1) forwards';
+  await sleep(1300);
+
+  // server
+  $('server').classList.add('show', 'processing');
+  await sleep(500);
+  const L = [1,2,3,4,5].map(i => $('tl' + i));
+  L[0].classList.add('show'); await sleep(300);
+  L[1].classList.add('show'); await sleep(450);
+  L[2].classList.add('show'); await sleep(300);
+  L[3].classList.add('show');
+  for (let p = 0; p <= 100; p += 10){ bar(p); await sleep(55); }
+  await sleep(150);
+  L[4].classList.add('show'); await sleep(400);
+
+  // 03 DATABASE
+  setStep(2, '03 — DATABASE');
+  count($('ms'), 31, 1400);
+  $('path2').classList.add('draw');
+  $('reqPacket2').style.animation = 'packetDownDb 1.2s cubic-bezier(.4,0,.2,1) forwards';
+  await sleep(1000);
+  $('database').classList.add('show', 'scanning');
+  const recs = [...document.querySelectorAll('#records .record')];
+  for (const r of recs){ await sleep(280); r.classList.add('hit'); }
+  await sleep(250);
+  recs.forEach(r => r.classList.remove('hit'));
+  for (const r of recs.filter(r => r.dataset.m)){
+    r.classList.add('match'); r.lastElementChild.textContent = 'MATCH ✓'; await sleep(180);
+  }
+  await sleep(1000);
+  $('database').classList.remove('scanning');
+  $('server').classList.remove('processing');
+
+  // 04 RESPONSE
+  setStep(3, '04 — RESPONSE');
+  count($('ms'), 47, 1500);
+  $('resPacket').style.animation = 'packetUp 1.8s cubic-bezier(.4,0,.2,1) forwards';
+  await sleep(1600);
+
+  // 05 RENDER
+  setStep(4, '05 — RENDER');
+  $('results').classList.add('show');
+  ['browser','server','database'].forEach(i => $(i).style.opacity = '0');
+  ['path1','path2'].forEach(i => $(i).style.opacity = '0');
+  $('latency').classList.remove('show');
+  burst();
+  $('finalWow').classList.add('show');
+  await sleep(4200);
+  $('replay').classList.add('show');
+}
+
+document.body.addEventListener('click', () => location.reload());
+play();
+</script>
+</body>
+</html>
